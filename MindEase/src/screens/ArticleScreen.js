@@ -4,11 +4,11 @@ import FooterNavigation from '../components/Footer';
 
 const maxWidth = 375;
 
-const HomeScreen = () => {
+const ArticleScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.text}>Ini Home</Text>
+        <Text style={styles.text}>Ini Article</Text>
       </View>
       <FooterNavigation />
     </SafeAreaView>
@@ -37,5 +37,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default ArticleScreen;
 
