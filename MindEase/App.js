@@ -11,13 +11,17 @@ import ActivityScreen from './src/screens/ActivityScreen';
 import ArticleScreen from './src/screens/ArticleScreen';
 
 import { addMood, getMoods } from './src/services/firestoreService';
+import { fetchAIResponse } from './src/services/openAIService';
 
 const Stack = createStackNavigator();
 
 export default function App() {
     useEffect(() => {
-        addMood("happy");
+        // addMood("dead");
         getMoods();
+        fetchAIResponse("Hello, how can I improve my mood today?")
+            .then((response) => console.log("AI Response:", response))
+            .catch((error) => console.error("Error:", error));
     }, []);
     
     return (

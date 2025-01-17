@@ -1,8 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions, SafeAreaView } from 'react-native';
 import FooterNavigation from '../components/Footer';
+import { fetchAIResponse } from "../services/openAIService";
 
 const maxWidth = 375;
+
+const handleUserMessage = async (userMessage) => {
+  const aiResponse = await fetchAIResponse(userMessage);
+  console.log("AI Response:", aiResponse);
+};
 
 const ChatScreen = () => {
   return (
