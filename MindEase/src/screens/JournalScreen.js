@@ -1,41 +1,129 @@
-import React from 'react';
-import { View, Text, StyleSheet, Dimensions, SafeAreaView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import FooterNavigation from '../components/Footer';
+import TodayCard from '../components/TodayCard';
+import JournalCard from '../components/JournalCard';
+import FilterModal from '../components/FilterModal';
 
 const maxWidth = 375;
 
 const JournalScreen = () => {
+  const [filterModalVisible, setFilterModalVisible] = useState(false);
+
+  const prevJournals = [
+    { date: '21/12/2024', preview: 'Dear Minnie, Today...' },
+    { date: '20/12/2024', preview: 'Dear Minnie, Today...' },
+    { date: '19/12/2024', preview: 'Dear Minnie, Today...' },
+    { date: '18/12/2024', preview: 'Dear Minnie, Today...' },
+  ];
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.text}>Ini Journal</Text>
+    <View style={styles.wrapper}>
+      <View style={styles.container}>
+        <View style={styles.content}>
+          <Text style={styles.header}>Journal</Text>
+          
+          <TodayCard onPress={() => console.log('Write journal pressed')} />
+          
+          <View style={styles.prevJournalSection}>
+            <View style={styles.prevJournalHeader}>
+              <Text style={styles.prevJournalTitle}>Prev. Journal</Text>
+              <TouchableOpacity onPress={() => setFilterModalVisible(true)}>
+                <Text style={styles.filterText}>Filter</Text>
+              </TouchableOpacity>
+            </View>
+            
+            <View style={styles.dateNavigation}>
+              <Text style={styles.dateNavigationText}>{'<'}</Text>
+              <Text style={styles.dateRange}>Dec 16 - 22 2024</Text>
+              <Text style={styles.dateNavigationText}>{'>'}</Text>
+            </View>
+
+            <ScrollView style={styles.journalList}>
+              {prevJournals.map((journal, index) => (
+                <JournalCard
+                  key={index}
+                  date={journal.date}
+                  preview={journal.preview}
+                />
+              ))}
+            </ScrollView>
+          </View>
+        </View>
+        <FooterNavigation />
+        {filterModalVisible && (
+          <FilterModal
+            visible={filterModalVisible}
+            onClose={() => setFilterModalVisible(false)}
+            onSelectRange={(range) => {
+              console.log('Selected range:', range);
+              setFilterModalVisible(false);
+            }}
+          />
+        )}
       </View>
-      <FooterNavigation />
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#FFF9C4',
     width: '100%',
     maxWidth: maxWidth,
-    marginHorizontal: 'auto',
+    backgroundColor: '#FFF9C4',
   },
   content: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: '100%',
+    padding: 20,
   },
-  text: {
-    fontSize: 24,
+  header: {
+    fontSize: 28,
     fontWeight: 'bold',
     color: '#333',
+    marginBottom: 20,
+  },
+  prevJournalSection: {
+    flex: 1,
+  },
+  prevJournalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  prevJournalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  filterText: {
+    fontSize: 16,
+    color: '#666',
+  },
+  dateNavigation: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  dateNavigationText: {
+    fontSize: 18,
+    color: '#666',
+  },
+  dateRange: {
+    fontSize: 16,
+    color: '#333',
+    fontWeight: '500',
+  },
+  journalList: {
+    flex: 1,
   },
 });
 
 export default JournalScreen;
-
