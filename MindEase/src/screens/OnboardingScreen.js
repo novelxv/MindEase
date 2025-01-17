@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { View, Text, Image, StyleSheet, ImageBackground, Dimensions, TouchableOpacity, SafeAreaView } from 'react-native';
 
-// pake ini buat get window size aja drpd ngelimit size?
-// coba di tab size broken tho
 const { width, height } = Dimensions.get('window');
+
+const maxWidth = 375;
 
 const onboardingData = [
   {
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     width: '100%',
+    maxWidth: maxWidth,
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
