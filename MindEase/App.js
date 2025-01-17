@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from './src/screens/SplashScreen';
@@ -9,12 +10,19 @@ import JournalScreen from './src/screens/JournalScreen';
 import ActivityScreen from './src/screens/ActivityScreen';
 import ArticleScreen from './src/screens/ArticleScreen';
 
+import { addMood, getMoods } from './src/services/firestoreService';
+
 const Stack = createStackNavigator();
 
 export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+    useEffect(() => {
+        addMood("happy");
+        getMoods();
+    }, []);
+    
+    return (
+        <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Onboarding" component={OnboardingScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
@@ -22,9 +30,9 @@ export default function App() {
         <Stack.Screen name="Journal" component={JournalScreen} />
         <Stack.Screen name="Activity" component={ActivityScreen} />
         <Stack.Screen name="Article" component={ArticleScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+        </Stack.Navigator>
+        </NavigationContainer>
+    );
 }
 
 // import { StatusBar } from 'expo-status-bar';
