@@ -1,6 +1,7 @@
 import React from 'react';
 import { ScrollView, View, Text, StyleSheet, ImageBackground, Dimensions, SafeAreaView } from 'react-native';
 import FooterNavigation from '../components/Footer';
+import HeaderWithBackButton from '../components/HeaderWithBackButton';
 import { useGlobalFonts, globalStyles } from '../styles/global';
 import Card from '../components/Cards';
 
@@ -10,10 +11,10 @@ const ActivityScreen = () => {
   const fontsLoaded = useGlobalFonts(); 
 
   const activities = [
-    { id: 1, text: "Meditation Session", image: require("../assets/activities/meditation.png") },
-    { id: 2, text: "Creative Emotional Expression", image: require("../assets/activities/creative.png") },
-    { id: 3, text: "Sleep Stories & White Noise", image: require("../assets/activities/sleepstories.png") },
-    { id: 4, text: "Guided Breathing & Relaxation Sessions", image: require("../assets/activities/guided.png") },
+    { id: 1, text: 'Meditation Session', image: require('../assets/activities/meditation.png'), targetScreen: 'MeditationScreen' },
+    { id: 2, text: 'Creative Emotional Expression', image: require('../assets/activities/creative.png'), targetScreen: 'CreativeExpressionScreen' },
+    { id: 3, text: 'Sleep Stories & White Noise', image: require('../assets/activities/sleepstories.png'), targetScreen: 'SleepStoriesScreen' },
+    { id: 4, text: 'Guided Breathing & Relaxation Sessions', image: require('../assets/activities/guided.png'), targetScreen: 'BreathingScreen' },
   ];
 
   return (
@@ -23,9 +24,7 @@ const ActivityScreen = () => {
         style={globalStyles.backgroundimage}
         resizeMode="cover"
       >
-        <View>
-          <Text style={globalStyles.header}>Activities</Text>
-        </View>
+        <HeaderWithBackButton title="Activities" />
 
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false} >
           {activities.map((article) => (

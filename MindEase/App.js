@@ -9,6 +9,7 @@ import ChatScreen from './src/screens/ChatScreen';
 import JournalScreen from './src/screens/JournalScreen';
 import ActivityScreen from './src/screens/ActivityScreen';
 import ArticleScreen from './src/screens/ArticleScreen';
+import ArticleDetails from './src/screens/Articles_ArticleDetails';
 
 import { addMood, getMoods } from './src/services/firestoreService';
 import { fetchAIResponse } from './src/services/openAIService';
@@ -34,6 +35,7 @@ export default function App() {
         <Stack.Screen name="Journal" component={JournalScreen} />
         <Stack.Screen name="Activity" component={ActivityScreen} />
         <Stack.Screen name="Article" component={ArticleScreen} />
+        <Stack.Screen name="ArticleDetails" component={ArticleDetails} />
         </Stack.Navigator>
         </NavigationContainer>
     );

@@ -1,12 +1,16 @@
 import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 
-const Card = ({ imageSource, text }) => {
+const Card = ({ imageSource, text, navigation, targetScreen }) => {
+  const handleCardPress = () => {
+    navigation.navigate(targetScreen);
+  };
+
   return (
-    <View style={styles.card}>
+    <TouchableOpacity onPress={handleCardPress} style={styles.card}>
       <Image source={imageSource} style={styles.image} />
       <Text style={styles.text}>{text}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 

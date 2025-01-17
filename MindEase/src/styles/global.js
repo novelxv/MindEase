@@ -4,12 +4,9 @@ const maxWidth = 375;
 const { width, height } = Dimensions.get('window');
 const globalStyles = StyleSheet.create({
   header: {
-    paddingHorizontal: 25,
-    paddingVertical: 20,
     fontFamily: 'Lexend-Regular',
     fontWeight: "bold",
     textAlign: "left",
-    marginBottom: 10,
     color: "#333",
     fontSize: 24,
   },
