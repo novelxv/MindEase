@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { globalStyles } from '../styles/global';
 
 const Card = ({ imageSource, text, navigation, targetScreen }) => {
   const handleCardPress = () => {
@@ -9,7 +10,7 @@ const Card = ({ imageSource, text, navigation, targetScreen }) => {
   return (
     <TouchableOpacity onPress={handleCardPress} style={styles.card}>
       <Image source={imageSource} style={styles.image} />
-      <Text style={styles.text}>{text}</Text>
+      <Text style={[globalStyles.content, styles.text]}>{text}</Text>
     </TouchableOpacity>
   );
 };
@@ -33,8 +34,6 @@ const styles = StyleSheet.create({
   },
   text: {
     padding: 10,
-    fontSize: 16,
-    fontWeight: "bold",
     textAlign: "center",
   },
 });

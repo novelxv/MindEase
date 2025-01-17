@@ -10,13 +10,19 @@ import JournalScreen from './src/screens/JournalScreen';
 import ActivityScreen from './src/screens/ActivityScreen';
 import ArticleScreen from './src/screens/ArticleScreen';
 import ArticleDetails from './src/screens/Articles_ArticleDetails';
+import MeditationScreen from './src/screens/activity/MeditationScreen';
+import SleepStoriesScreen from './src/screens/activity/SleepStoriesScreen';
+import CreativeExpressionScreen from './src/screens/activity/CreativeExpressionScreen';
+import BreathingScreen from './src/screens/activity/BreathingScreen';
 
+import { useGlobalFonts } from './src/styles/global';
 import { addMood, getMoods } from './src/services/firestoreService';
 import { fetchAIResponse } from './src/services/openAIService';
 
 const Stack = createStackNavigator();
 
 export default function App() {
+    const fontsLoaded = useGlobalFonts();
     useEffect(() => {
         // addMood("dead");
         getMoods();
@@ -36,6 +42,10 @@ export default function App() {
         <Stack.Screen name="Activity" component={ActivityScreen} />
         <Stack.Screen name="Article" component={ArticleScreen} />
         <Stack.Screen name="ArticleDetails" component={ArticleDetails} />
+        <Stack.Screen name="MeditationScreen" component={MeditationScreen} />
+        <Stack.Screen name="SleepStoriesScreen" component={SleepStoriesScreen} />
+        <Stack.Screen name="CreativeExpressionScreen" component={CreativeExpressionScreen} />
+        <Stack.Screen name="BreathingScreen" component={BreathingScreen} />
         </Stack.Navigator>
         </NavigationContainer>
     );

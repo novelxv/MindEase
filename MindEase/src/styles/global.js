@@ -10,6 +10,18 @@ const globalStyles = StyleSheet.create({
     color: "#333",
     fontSize: 24,
   },
+  content: {
+    fontFamily: 'Lexend-Regular',
+    fontWeight: "normal",
+    color: "#333",
+    fontSize: 16,
+  },
+  subheader: {
+    fontFamily: 'Lexend-Regular',
+    fontWeight: "bold",
+    color: "#333",
+    fontSize: 18,
+  },
   backgroundimage: {
     flex: 1,
     width: '100%',

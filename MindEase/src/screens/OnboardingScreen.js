@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   subheader: {
+    fontFamily: 'Lexend-Regular',
     fontSize: 24,
     fontWeight: 'bold',
     color: '#333',
@@ -88,6 +89,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   description: {
+    fontFamily: 'Lexend-Regular',
     fontSize: 16,
     color: '#666',
     textAlign: 'center',

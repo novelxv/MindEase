@@ -7,7 +7,7 @@ import Card from '../components/Cards';
 
 const { width, height } = Dimensions.get('window');
 
-const ActivityScreen = () => {
+const ActivityScreen = ({navigation}) => {
   const fontsLoaded = useGlobalFonts(); 
 
   const activities = [
@@ -29,7 +29,7 @@ const ActivityScreen = () => {
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false} >
           {activities.map((article) => (
             <View key={article.id} style={styles.cardWrapper}>
-              <Card imageSource={article.image} text={article.text} />
+              <Card imageSource={article.image} text={article.text} navigation={navigation} targetScreen={article.targetScreen}/>
             </View>
           ))}
         </ScrollView>

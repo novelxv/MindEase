@@ -5,10 +5,6 @@ import Card from '../components/Cards';
 import HeaderWithBackButton from '../components/HeaderWithBackButton';
 import { useGlobalFonts, globalStyles } from '../styles/global';
 
-const { width, height } = Dimensions.get('window');
-
-const maxWidth = 375;
-
 const ArticleScreen = ({navigation}) => {
   const articles = [
     { id: 1, text: "Why Sleep Is Your Superpower", image: require("../assets/articles/sleep.png"), targetScreen: "ArticleDetails" },
