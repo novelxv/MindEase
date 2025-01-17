@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions, SafeAreaView } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, ImageBackground, Dimensions, SafeAreaView } from 'react-native';
 import FooterNavigation from '../components/Footer';
+import { useGlobalFonts, globalStyles } from '../styles/global';
 import { fetchAIResponse } from "../services/openAIService";
 
 const maxWidth = 375;
@@ -12,7 +13,7 @@ const handleUserMessage = async (userMessage) => {
 
 const ChatScreen = () => {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={globalStyles.container}>
       <View style={styles.content}>
         <Text style={styles.text}>Ini Chat</Text>
       </View>
@@ -22,15 +23,6 @@ const ChatScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#FFF9C4',
-    width: '100%',
-    maxWidth: maxWidth,
-    marginHorizontal: 'auto',
-  },
   content: {
     flex: 1,
     justifyContent: 'center',

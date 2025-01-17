@@ -4,6 +4,7 @@ import FooterNavigation from '../components/Footer';
 import TodayCard from '../components/TodayCard';
 import JournalCard from '../components/JournalCard';
 import FilterModal from '../components/FilterModal';
+import { useGlobalFonts, globalStyles } from '../styles/global';
 
 const maxWidth = 375;
 
@@ -21,7 +22,7 @@ const JournalScreen = () => {
     <View style={styles.wrapper}>
       <View style={styles.container}>
         <View style={styles.content}>
-          <Text style={styles.header}>Journal</Text>
+          <Text style={globalStyles.header}>Journal</Text>
           
           <TodayCard onPress={() => console.log('Write journal pressed')} />
           
@@ -81,12 +82,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     padding: 20,
-  },
-  header: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 20,
   },
   prevJournalSection: {
     flex: 1,

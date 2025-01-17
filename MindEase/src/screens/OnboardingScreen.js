@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { View, Text, Image, StyleSheet, ImageBackground, Dimensions, TouchableOpacity, SafeAreaView } from 'react-native';
+import { useGlobalFonts, globalStyles } from '../styles/global';
 
 const { width, height } = Dimensions.get('window');
 

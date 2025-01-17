@@ -5,10 +5,9 @@ import MoodRatingModal from '../components/MoodRatingModal';
 import MoodRatingCard from '../components/MoodRatingCard';
 import QuoteCard from '../components/QuoteCard';
 import ActivityCard from '../components/ActivityCard';
+import { useGlobalFonts, globalStyles } from '../styles/global';
 
-const { width, height } = Dimensions.get('window');
 
-const maxWidth = 375;
 
 const HomeScreen = () => {
   const [moodModalVisible, setMoodModalVisible] = useState(true); // Show modal by default
@@ -22,7 +21,7 @@ const HomeScreen = () => {
   const recommendedActivities = [
     {
       title: 'Meditation Session',
-      imageUrl: '/placeholder.svg?height=100&width=400',
+      imageUrl: '../assets/articles/sleep.png',
     },
     {
       title: 'Creative Emotional Expression',
@@ -47,10 +46,10 @@ const HomeScreen = () => {
 
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={globalStyles.container}>
       <ImageBackground 
         source={require('../assets/watercolor-blue.png')} 
-        style={styles.background}
+        style={globalStyles.backgroundimage}
         resizeMode="cover"
       >
       <View style={styles.content}>
@@ -103,20 +102,6 @@ const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: width,
-    height: height,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  background: {
-    flex: 1,
-    width: '100%',
-    maxWidth: maxWidth,
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   content: {
     flex: 1,
   },

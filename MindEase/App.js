@@ -19,9 +19,9 @@ export default function App() {
     useEffect(() => {
         // addMood("dead");
         getMoods();
-        fetchAIResponse("Hello, how can I improve my mood today?")
-            .then((response) => console.log("AI Response:", response))
-            .catch((error) => console.error("Error:", error));
+        // fetchAIResponse("Hello, how can I improve my mood today?")
+        //     .then((response) => console.log("AI Response:", response))
+        //     .catch((error) => console.error("Error:", error));
     }, []);
     
     return (
