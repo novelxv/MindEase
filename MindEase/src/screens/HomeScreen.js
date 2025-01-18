@@ -6,6 +6,7 @@ import MoodRatingCard from '../components/MoodRatingCard';
 import QuoteCard from '../components/QuoteCard';
 import ActivityCard from '../components/ActivityCard';
 import { useGlobalFonts, globalStyles } from '../styles/global';
+import Calendar from '../components/Calendar';
 
 
 
@@ -58,13 +59,14 @@ const HomeScreen = () => {
           <MoodRatingCard onMoodSelect={(mood) => console.log('Selected mood:', mood)} />
           <QuoteCard />
 
-          <View style={styles.calendarCard}>
+          <Calendar />
+          {/* <View style={styles.calendarCard}>
             <Text style={styles.calendarTitle}>June 2024</Text>
           </View>
 
           <TouchableOpacity style={styles.journalButton}>
             <Text style={styles.journalButtonText}>View This Day Journal →</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Recommended Activities</Text>
