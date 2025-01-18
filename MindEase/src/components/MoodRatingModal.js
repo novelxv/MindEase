@@ -1,16 +1,31 @@
 import React, { useState } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
+import TerribleBefore from '../assets/moodRating/terrible-icon-before.svg';
+import TerribleAfter from '../assets/moodRating/terrible-icon-after.svg';
+import BadBefore from '../assets/moodRating/bad-icon-before.svg';
+import BadAfter from '../assets/moodRating/bad-icon-after.svg';
+import OkayBefore from '../assets/moodRating/okay-icon-before.svg';
+import OkayAfter from '../assets/moodRating/okay-icon-after.svg';
+import GoodBefore from '../assets/moodRating/good-icon-before.svg';
+import GoodAfter from '../assets/moodRating/good-icon-after.svg';
+import GreatBefore from '../assets/moodRating/great-icon-before.svg';
+import GreatAfter from '../assets/moodRating/great-icon-after.svg';
+
 const MoodRatingModal = ({ visible, onClose, onSelectMood }) => {
   const [selectedMood, setSelectedMood] = useState(null);
 
   const moods = [
-    { emoji: '😠', label: 'Terrible' },
-    { emoji: '☹️', label: 'Bad' },
-    { emoji: '😐', label: 'Okay' },
-    { emoji: '🙂', label: 'Good' },
-    { emoji: '😄', label: 'Great' },
+    { label: 'Terrible', before: TerribleBefore, after: TerribleAfter },
+    { label: 'Bad', before: BadBefore, after: BadAfter },
+    { label: 'Okay', before: OkayBefore, after: OkayAfter },
+    { label: 'Good', before: GoodBefore, after: GoodAfter },
+    { label: 'Great', before: GreatBefore, after: GreatAfter },
   ];
+
+  const handleMoodSelect = (index) => {
+    setSelectedMood(index);
+  };
 
   const handleContinue = () => {
     if (selectedMood !== null) {
@@ -35,13 +50,19 @@ const MoodRatingModal = ({ visible, onClose, onSelectMood }) => {
             {moods.map((mood, index) => (
               <TouchableOpacity
                 key={index}
-                onPress={() => setSelectedMood(index)}
+                onPress={() => handleMoodSelect(index)}
                 style={[
                   styles.moodButton,
                   selectedMood === index && styles.selectedMood,
                 ]}
               >
-                <Text style={styles.moodEmoji}>{mood.emoji}</Text>
+                <View>
+                  {selectedMood === index ? (
+                    <mood.after width={40} height={40} />
+                  ) : (
+                    <mood.before width={40} height={40} />
+                  )}
+                </View>
                 <Text style={styles.moodLabel}>{mood.label}</Text>
               </TouchableOpacity>
             ))}
@@ -57,7 +78,6 @@ const MoodRatingModal = ({ visible, onClose, onSelectMood }) => {
           >
             <Text style={styles.continueButtonText}>Continue</Text>
           </TouchableOpacity>
-
           <Text style={styles.footnote}>
             You can edit this later in the homepage
           </Text>
@@ -98,11 +118,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    marginBottom: 32,
+    marginBottom: 16,
   },
   moodButton: {
     alignItems: 'center',
     padding: 8,
+    gap: 8,
+
   },
   selectedMood: {
     backgroundColor: '#F5F5F5',

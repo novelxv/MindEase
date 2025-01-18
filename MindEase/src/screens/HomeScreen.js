@@ -11,11 +11,17 @@ import Calendar from '../components/Calendar';
 
 
 const HomeScreen = () => {
-  const [moodModalVisible, setMoodModalVisible] = useState(true); // Show modal by default
+  const [moodModalVisible, setMoodModalVisible] = useState(false); 
+  const [mood, setMood] = useState(null);
+
+  useEffect(() => {
+    if (mood === null) {
+      setMoodModalVisible(true);
+    }
+  }, [mood]);
 
   const handleMoodSelection = (mood) => {
-    console.log('Selected mood:', mood);
-    // Here you can add logic to store the mood
+    setMood(mood);
     setMoodModalVisible(false);
   };
 
@@ -45,6 +51,9 @@ const HomeScreen = () => {
     { title: 'Sports', imageUrl: '/placeholder.svg?height=80&width=150' },
   ];
 
+  console.log(mood);
+  
+  const backgroundColor = mood === 'Good' || mood === 'Great' ? '#A1C3E3' : '#FAD967';
 
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -60,13 +69,6 @@ const HomeScreen = () => {
           <QuoteCard />
 
           <Calendar />
-          {/* <View style={styles.calendarCard}>
-            <Text style={styles.calendarTitle}>June 2024</Text>
-          </View>
-
-          <TouchableOpacity style={styles.journalButton}>
-            <Text style={styles.journalButtonText}>View This Day Journal →</Text>
-          </TouchableOpacity> */}
 
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Recommended Activities</Text>
