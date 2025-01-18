@@ -1,37 +1,39 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { MessageSquare, Book, Home, Leaf, FileText } from 'lucide-react';
 
 const FooterNavigation = () => {
   const navigation = useNavigation();
   const route = useRoute();
 
   const navItems = [
-    { name: 'Chat', icon: MessageSquare, path: 'Chat' },
-    { name: 'Journal', icon: Book, path: 'Journal' },
-    { name: 'Home', icon: Home, path: 'Home' },
-    { name: 'Activity', icon: Leaf, path: 'Activity' },
-    { name: 'Article', icon: FileText, path: 'Article' }
+    { name: 'Chat', icon: require('../assets/footer/chat-icon.png'), path: 'Chat' },
+    { name: 'Journal', icon: require('../assets/footer/journal-icon.png'), path: 'Journal' },
+    { name: 'Home', icon: require('../assets/footer/home-icon.png'), path: 'Home' },
+    { name: 'Activity', icon: require('../assets/footer/activity-icon.png'), path: 'Activity' },
+    { name: 'Article', icon: require('../assets/footer/article-icon.png'), path: 'Article' }
   ];
 
   return (
     <View style={styles.container}>
       {navItems.map((item) => {
         const isActive = route.name === item.path;
-        const Icon = item.icon;
         
         return (
           <TouchableOpacity
             key={item.name}
-            style={[styles.tab, isActive && styles.activeTab]}
+            style={[styles.tab, isActive]}
             onPress={() => navigation.navigate(item.path)}
           >
-            <Icon
-              size={24}
-              color={isActive ? "#0066FF" : "#666666"}
-              style={styles.icon}
-            />
+            <View style={[styles.iconContainer, isActive && styles.activeTab]}>
+              <Image
+                source={item.icon}
+                style={[
+                  styles.icon,
+                  isActive && styles.activeIcon,
+                ]}
+              />
+            </View>
             <Text style={[
               styles.label,
               isActive && styles.activeLabel
@@ -39,7 +41,7 @@ const FooterNavigation = () => {
               {item.name}
             </Text>
           </TouchableOpacity>
-        )
+        );
       })}
     </View>
   );
@@ -62,19 +64,33 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 4,
     borderRadius: 8,
+    justifyContent: 'center',
+
   },
   activeTab: {
-    backgroundColor: '#E6F0FF',
+    backgroundColor: '#E1EEF9',
   },
   icon: {
+    width: 18,
+    height: 18,
     marginBottom: 4,
+  },
+  iconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 40, 
+    height: 25, 
+    borderRadius: 20, 
+  },
+  activeIcon: {
+    tintColor: '#555454',
   },
   label: {
     fontSize: 12,
-    color: '#666666',
+    color: '#AFAFAF',
   },
   activeLabel: {
-    color: '#0066FF',
+    color: '#555454',
   },
 });
 
