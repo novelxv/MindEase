@@ -2,9 +2,9 @@ import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { globalStyles } from '../styles/global';
 
-const Card = ({ imageSource, text, navigation, targetScreen }) => {
+const Card = ({ imageSource, text, navigation, targetScreen, id }) => {
   const handleCardPress = () => {
-    navigation.navigate(targetScreen);
+    navigation.navigate(targetScreen, { id });
   };
 
   return (

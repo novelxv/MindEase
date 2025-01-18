@@ -22,10 +22,10 @@ const ArticleScreen = ({navigation}) => {
       >
         <HeaderWithBackButton title="Articles" />
 
-        <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false} >
+        <ScrollView contentContainerStyle={globalStyles.scrollContent} showsVerticalScrollIndicator={false} >
           {articles.map((article) => (
             <View key={article.id} style={styles.cardWrapper}>
-              <Card imageSource={article.image} text={article.text} navigation={navigation} targetScreen={article.targetScreen} />
+              <Card imageSource={article.image} text={article.text} navigation={navigation} targetScreen={article.targetScreen} id={article.id} />
             </View>
           ))}
         </ScrollView>
@@ -37,10 +37,6 @@ const ArticleScreen = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  scrollContent: {
-    paddingHorizontal: 15,
-    paddingBottom: 80,
-  },
   cardWrapper: {
     marginBottom: 20,
   },

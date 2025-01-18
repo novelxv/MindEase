@@ -26,7 +26,7 @@ const ActivityScreen = ({navigation}) => {
       >
         <HeaderWithBackButton title="Activities" />
 
-        <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false} >
+        <ScrollView contentContainerStyle={globalStyles.scrollContent} showsVerticalScrollIndicator={false} >
           {activities.map((article) => (
             <View key={article.id} style={styles.cardWrapper}>
               <Card imageSource={article.image} text={article.text} navigation={navigation} targetScreen={article.targetScreen}/>
@@ -41,10 +41,6 @@ const ActivityScreen = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  scrollContent: {
-    paddingHorizontal: 15,
-    paddingBottom: 80,
-  },
   cardWrapper: {
     marginBottom: 20,
   },

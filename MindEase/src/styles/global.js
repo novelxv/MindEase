@@ -28,6 +28,10 @@ const globalStyles = StyleSheet.create({
     maxWidth: maxWidth,
     height: '100%',
   },
+  scrollContent: {
+    paddingHorizontal: 15,
+    paddingBottom: 10,
+  },
   container: {
     width: width,
     height: height,
@@ -35,6 +39,11 @@ const globalStyles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 15,
     paddingRight: 15,
+  },
+  contentWrapper: {
+    width: '100%',
+    maxWidth: 375,
+    flex: 1,
   },
 });
 
