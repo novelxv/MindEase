@@ -3,14 +3,8 @@ import { ScrollView, View, Text, StyleSheet, ImageBackground, Dimensions, SafeAr
 import FooterNavigation from '../components/Footer';
 import HeaderWithBackButton from '../components/HeaderWithBackButton';
 import { useGlobalFonts, globalStyles } from '../styles/global';
-import { fetchAIResponse } from "../services/openAIService";
 
 const maxWidth = 375;
-
-const handleUserMessage = async (userMessage) => {
-  const aiResponse = await fetchAIResponse(userMessage);
-  console.log("AI Response:", aiResponse);
-};
 
 const ChatScreen = () => {
   return (

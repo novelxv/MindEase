@@ -16,19 +16,26 @@ import CreativeExpressionScreen from './src/screens/activity/CreativeExpressionS
 import BreathingScreen from './src/screens/activity/BreathingScreen';
 
 import { useGlobalFonts } from './src/styles/global';
+
+import { app } from './src/services/firebaseConfig';
 import { addMood, getMoods } from './src/services/firestoreService';
-import { fetchAIResponse } from './src/services/openAIService';
+import { fetchHuggingFaceResponse } from './src/services/huggingFaceService';
 
 const Stack = createStackNavigator();
 
 export default function App() {
+    console.log("Firebase initialized:", app.name);
     const fontsLoaded = useGlobalFonts();
     useEffect(() => {
+        // TEST FIRESTORE
         // addMood("dead");
-        getMoods();
-        // fetchAIResponse("Hello, how can I improve my mood today?")
-        //     .then((response) => console.log("AI Response:", response))
-        //     .catch((error) => console.error("Error:", error));
+        // getMoods();
+        // TEST AI
+        // console.log("Fetching AI response...");
+        // response = fetchHuggingFaceResponse("I'm feeling sad");
+        // console.log("Response:", response);
+        // TEST NOTIFICATION
+        // sendReminder("Take a Break", "Time for a quick relaxation session!");
     }, []);
     
     return (
