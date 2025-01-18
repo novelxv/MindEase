@@ -17,7 +17,7 @@ const MeditationScreen = ({navigation}) => {
                 end={{ x: 0, y: 1 }}
                 style={globalStyles.backgroundimage}
             >
-                <HeaderWithBackButton title="Meditation Session" onBackPress={handleBackPress} />
+                <HeaderWithBackButton title="Meditation Session" isWhite={true} onBackPress={handleBackPress} />
 
                 <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false} >
                 </ScrollView>

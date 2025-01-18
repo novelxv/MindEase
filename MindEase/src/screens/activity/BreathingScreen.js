@@ -80,6 +80,7 @@ const BreathingScreen = ({navigation}) => {
                 <HeaderWithBackButton 
                   title="Guided Breathing & Relaxation Sessions" 
                   onBackPress={handleBackPress} 
+                  isWhite={true}
                 />
 
                 <ScrollView 

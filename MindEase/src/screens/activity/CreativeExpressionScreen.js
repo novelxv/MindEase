@@ -17,7 +17,7 @@ const CreativeExpressionScreen = ({navigation}) => {
                 end={{ x: 0, y: 1 }}
                 style={globalStyles.backgroundimage}
             >
-                <HeaderWithBackButton title="Creative Emotional Expression" onBackPress={handleBackPress} />
+                <HeaderWithBackButton title="Creative Emotional Expression" isWhite={true} onBackPress={handleBackPress} />
 
                 <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false} >
                 </ScrollView>

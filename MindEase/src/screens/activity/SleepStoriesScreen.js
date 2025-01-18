@@ -17,8 +17,7 @@ const SleepStoriesScreen = ({navigation}) => {
                 end={{ x: 0, y: 1 }}
                 style={globalStyles.backgroundimage}
             >
-                <HeaderWithBackButton title="Sleep Stories &
-White Noise" onBackPress={handleBackPress} />
+                <HeaderWithBackButton title="Sleep Stories & White Noise" isWhite={true} onBackPress={handleBackPress} />
 
                 <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false} >
                 </ScrollView>

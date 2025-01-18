@@ -1,18 +1,20 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { ChevronLeft } from 'lucide-react';
-import { useGlobalFonts, globalStyles } from '../styles/global';
+import { globalStyles } from '../styles/global';
 
-const HeaderWithBackButton = ({ title, onBackPress }) => {
+const HeaderWithBackButton = ({ title, onBackPress, isWhite }) => {
   return (
-    <View style={styles.headerContainer}>
+    <View style={[styles.headerContainer, isWhite && styles.whiteHeader]}>
       {onBackPress && (
         <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
-          <ChevronLeft size={24} color="#333" />
+          <ChevronLeft size={24} color={isWhite ? "#FFF" : "#333"} />
         </TouchableOpacity>
       )}
       
-      <Text style={globalStyles.header}>{title}</Text>
+      <Text style={[globalStyles.header, isWhite && styles.whiteText]}>
+        {title}
+      </Text>
     </View>
   );
 };
@@ -27,6 +29,9 @@ const styles = StyleSheet.create({
   },
   backButton: {
     marginRight: 10,
+  },
+  whiteText: {
+    color: '#FFF',
   },
 });
 
