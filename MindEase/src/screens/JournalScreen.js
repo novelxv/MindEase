@@ -25,7 +25,7 @@ const JournalScreen = () => {
         <View style={styles.content}>
           <HeaderWithBackButton title="Journal" />
           
-          <TodayCard onPress={() => console.log('Write journal pressed')} />
+          <TodayCard onPress={() => console.log('Today button clicked')} variant="orange" buttonText="✎ Write a journal today!"/>
           
           <View style={styles.prevJournalSection}>
             <View style={styles.prevJournalHeader}>
