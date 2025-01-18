@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 import TerribleBefore from '../assets/moodRating/terrible-icon-before.svg';
-import TerribleAfter from '../assets/moodRating/terrible-icon-after.svg';
+import TerribleAfter from '../assets/moodRating/terrible-icon-after';
 import BadBefore from '../assets/moodRating/bad-icon-before.svg';
-import BadAfter from '../assets/moodRating/bad-icon-after.svg';
+import BadAfter from '../assets/moodRating/bad-icon-after';
 import OkayBefore from '../assets/moodRating/okay-icon-before.svg';
-import OkayAfter from '../assets/moodRating/okay-icon-after.svg';
+import OkayAfter from '../assets/moodRating/okay-icon-after';
 import GoodBefore from '../assets/moodRating/good-icon-before.svg';
-import GoodAfter from '../assets/moodRating/good-icon-after.svg';
+import GoodAfter from '../assets/moodRating/good-icon-after';
 import GreatBefore from '../assets/moodRating/great-icon-before.svg';
-import GreatAfter from '../assets/moodRating/great-icon-after.svg';
+import GreatAfter from '../assets/moodRating/great-icon-after';
 
 const MoodRatingModal = ({ visible, onClose, onSelectMood }) => {
   const [selectedMood, setSelectedMood] = useState(null);
