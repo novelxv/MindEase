@@ -19,6 +19,7 @@
     "@react-navigation/stack": "^7.1.1",
     "axios": "^1.7.9",
     "expo": "~52.0.25",
+    "expo-av": "^15.0.2",
     "expo-linear-gradient": "^14.0.2",
     "expo-status-bar": "~2.0.1",
     "firebase": "^11.2.0",
@@ -38,6 +39,7 @@
     "react-native-screens": "~4.4.0",
     "react-native-svg": "^15.11.1",
     "react-native-vector-icons": "^10.2.0",
+    "react-native-video": "^6.9.1",
     "react-native-web": "~0.19.13"
   },
   "devDependencies": {
