@@ -12,7 +12,7 @@ import { fetchHuggingFaceResponse } from "./huggingFaceService"; // Ensure Huggi
 export const saveJournal = async (date, userInput) => {
   try {
     // 1. Generate Minnie's response for the journal
-    const minnieResponse = await fetchHuggingFaceResponse(`Dear Minnie, ${userInput}`);
+    const minnieResponse = await fetchHuggingFaceResponse(`Dear Minnie, ${userInput}. Please respond with at least 50 words.`);
     
     // 2. Check if a journal already exists for the date
     const journalQuery = query(collection(db, "journals"), where("date", "==", date));
@@ -37,35 +37,20 @@ export const saveJournal = async (date, userInput) => {
       console.log("Journal saved successfully!");
     }
 
-    // 3. Generate activity recommendations
-    const activityPrompt = `Based on this journal: "${userInput}", suggest 1-2 activities to improve mood.`;
+    // 3. Generate activity recommendations (always add new)
+    const activityPrompt = `Based on this journal: "${userInput}", suggest 1 activity to improve mood.`;
     const activityResponse = await fetchHuggingFaceResponse(activityPrompt);
 
-    const activityQuery = query(collection(db, "activityRecommendations"), where("date", "==", date));
-    const activitySnapshot = await getDocs(activityQuery);
+    await addDoc(collection(db, "activityRecommendations"), {
+      date,
+      recommendation: activityResponse,
+    });
+    console.log("New activity recommendation added successfully!");
 
-    if (!activitySnapshot.empty) {
-      // Update existing activity recommendations
-      const activityDoc = activitySnapshot.docs[0];
-      const activityRef = doc(db, "activityRecommendations", activityDoc.id);
-      await updateDoc(activityRef, {
-        recommendations: activityResponse,
-      });
-      console.log("Activity recommendations updated successfully!");
-    } else {
-      // Add new activity recommendations
-      await addDoc(collection(db, "activityRecommendations"), {
-        date,
-        recommendations: activityResponse,
-      });
-      console.log("Activity recommendations saved successfully!");
-    }
-
-    // 4. Generate motivational banner
+    // 4. Generate motivational banner (always add new)
     const bannerPrompt = `Based on this journal: "${userInput}", generate a motivational or uplifting message.`;
     const bannerResponse = await fetchHuggingFaceResponse(bannerPrompt);
 
-    // Add a new banner (no update for existing entries)
     await addDoc(collection(db, "banners"), {
       date,
       message: bannerResponse,
