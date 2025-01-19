@@ -16,7 +16,6 @@ const stories = [
     description: 'Spend a day in the ethereal valley, where all of your dreams do come true.',
     image: require('../../assets/activities/sleep_stories/Stories1.png'),
     audio: require('../../assets/activities/sleep_stories/memories.mp3'),
-    duration: 360,
   },
   {
     id: 2,
@@ -24,7 +23,6 @@ const stories = [
     description: 'Spend a day in the ethereal valley, where all of your dreams do come true.',
     image: require('../../assets/activities/sleep_stories/Stories2.png'),
     audio: require('../../assets/activities/sleep_stories/hey.mp3'),
-    duration: 360,
   },
   {
     id: 3,
@@ -32,11 +30,11 @@ const stories = [
     description: 'Spend a day in the ethereal valley, where all of your dreams do come true.',
     image: require('../../assets/activities/sleep_stories/Stories3.png'),
     audio: require('../../assets/activities/sleep_stories/ukulele.mp3'),
-    duration: 360,
   },
 ];
 
 const formatTime = (seconds) => {
+  if (!seconds || isNaN(seconds)) return '00:00';
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
   return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
@@ -49,9 +47,22 @@ const SleepStoriesScreen = ({navigation}) => {
     const [selectedStory, setSelectedStory] = useState(stories[0]);
     const positionTimer = useRef(null);
 
+    const [duration, setDuration] = useState(0);
+
     async function loadAudio() {
         try {
-            const { sound } = await Audio.Sound.createAsync(selectedStory.audio);
+            const { sound } = await Audio.Sound.createAsync(
+                selectedStory.audio,
+                {},
+                (status) => {
+                    if (status.isLoaded) {
+                        setPosition(status.positionMillis / 1000);
+                        setDuration(status.durationMillis / 1000);
+                    }
+                }
+            );
+            const status = await sound.getStatusAsync();
+            setDuration(status.durationMillis / 1000);
             setSound(sound);
         } catch (error) {
             console.error('Error loading audio:', error);
@@ -71,20 +82,26 @@ const SleepStoriesScreen = ({navigation}) => {
     }, [selectedStory]);
 
     const handlePlayPause = async () => {
-        if (!sound) return;
-        
-        if (isPlaying) {
-            await sound.pauseAsync();
+      if (!sound) return;
+    
+      if (isPlaying) {
+        await sound.pauseAsync();
+        clearInterval(positionTimer.current);
+      } else {
+        await sound.playAsync();
+        positionTimer.current = setInterval(async () => {
+          const status = await sound.getStatusAsync();
+          setPosition(status.positionMillis / 1000);
+    
+          if (status.didJustFinish) {
             clearInterval(positionTimer.current);
-        } else {
-            await sound.playAsync();
-            positionTimer.current = setInterval(async () => {
-                const status = await sound.getStatusAsync();
-                setPosition(status.positionMillis / 1000);
-            }, 1000);
-        }
-        setIsPlaying(!isPlaying);
+            setIsPlaying(false);
+          }
+        }, 1000);
+      }
+      setIsPlaying(!isPlaying);
     };
+    
 
     const handleSliderChange = async (value) => {
         if (sound) {
@@ -93,100 +110,137 @@ const SleepStoriesScreen = ({navigation}) => {
         }
     };
 
-    const handleSkipBack = () => {
+    const handleSkipBack = async () => {
+      if (sound) {
+        await sound.stopAsync();
+        await sound.unloadAsync();
+      }
+    
       const currentIndex = stories.findIndex((story) => story.id === selectedStory.id);
       const newIndex = (currentIndex - 1 + stories.length) % stories.length;
-      setSelectedStory(stories[newIndex]);
+      const newStory = stories[newIndex];
+    
+      setSelectedStory(newStory);
+      setIsPlaying(false);
+      loadNewStory(newStory);
     };
     
-    const handleSkipForward = () => {
+    const handleSkipForward = async () => {
+      if (sound) {
+        await sound.stopAsync();
+        await sound.unloadAsync();
+      }
+    
       const currentIndex = stories.findIndex((story) => story.id === selectedStory.id);
       const newIndex = (currentIndex + 1) % stories.length;
-      setSelectedStory(stories[newIndex]);
+      const newStory = stories[newIndex];
+    
+      setSelectedStory(newStory);
+      setIsPlaying(false);
+      loadNewStory(newStory);
     };
     
     
+    const loadNewStory = async (story) => {
+      try {
+        setDuration(0);
+        const { sound: newSound } = await Audio.Sound.createAsync(
+          story.audio,
+          {},
+          (status) => {
+            if (status.isLoaded) {
+              setPosition(status.positionMillis / 1000);
+              setDuration(status.durationMillis / 1000);
+            }
+          }
+        );
+        setSound(newSound);
+        setPosition(0);
+      } catch (error) {
+        console.error('Error loading new story:', error);
+      }
+    };
+        
 
     return (
       <SafeAreaView style={globalStyles.container}>
           <LinearGradient
-              colors={['#505482', '#FFF']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 0, y: 1 }}
-              style={globalStyles.backgroundimage}
+            colors={['#505482', '#FFF']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 0, y: 1 }}
+            style={globalStyles.backgroundimage}
           >
-              <HeaderWithBackButton 
-                  title="Sleep Stories & White Noise" 
-                  isWhite={true} 
-                  onBackPress={() => navigation.navigate('Activity')} 
-              />
+          <HeaderWithBackButton 
+              title="Sleep Stories & White Noise" 
+              isWhite={true} 
+              onBackPress={() => navigation.navigate('Activity')} 
+          />
 
-              <View style={styles.mainContainer}>
-              <View style={styles.imageSection}>
-                <TouchableOpacity
-                  style={[styles.navButton, styles.leftNavButton]}
-                  onPress={handleSkipBack}
-                >
-                  <ChevronLeft size={20} color="#000000" />
-                </TouchableOpacity>
+          <View style={styles.mainContainer}>
+            <View style={styles.imageSection}>
+              <TouchableOpacity
+                style={[styles.navButton, styles.leftNavButton]}
+                onPress={handleSkipBack}
+              >
+                <ChevronLeft size={20} color="#000000" />
+              </TouchableOpacity>
 
-                <Image source={selectedStory.image} style={styles.storyImage} resizeMode="cover" />
+              <Image source={selectedStory.image} style={styles.storyImage} resizeMode="cover" />
 
-                <TouchableOpacity
-                  style={[styles.navButton, styles.rightNavButton]}
-                  onPress={handleSkipForward}
-                >
-                  <ChevronRight size={20} color="#000000" />
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity
+                style={[styles.navButton, styles.rightNavButton]}
+                onPress={handleSkipForward}
+              >
+                <ChevronRight size={20} color="#000000" />
+              </TouchableOpacity>
+            </View>
 
 
-                  <View style={styles.playerContainer}>
-                      <View style={styles.playerContent}>
-                          <Text style={styles.storyTitle}>{selectedStory.title}</Text>
-                          <Text style={styles.storyDescription}>{selectedStory.description}</Text>
-                          
-                          <View style={styles.timeContainer}>
-                              <Text style={styles.timeText}>{formatTime(position)}</Text>
-                              <Text style={styles.timeText}>{formatTime(selectedStory.duration)}</Text>
-                          </View>
+            <View style={styles.playerContainer}>
+                <View style={styles.playerContent}>
+                    <Text style={styles.storyTitle}>{selectedStory.title}</Text>
+                    <Text style={styles.storyDescription}>{selectedStory.description}</Text>
+                    
+                    <View style={styles.timeContainer}>
+                        <Text style={styles.timeText}>{formatTime(position)}</Text>
+                        <Text style={styles.timeText}>{formatTime(duration)}</Text>
+                    </View>
 
-                          <Slider
-                              style={styles.slider}
-                              minimumValue={0}
-                              maximumValue={selectedStory.duration}
-                              value={position}
-                              onValueChange={handleSliderChange}
-                              minimumTrackTintColor="#000000"
-                              maximumTrackTintColor="rgba(255,255,255,0.3)"
-                              thumbTintColor="#000000"
-                          />
+                    <Slider
+                      style={styles.slider}
+                      minimumValue={0}
+                      maximumValue={duration}
+                      value={position}
+                      onValueChange={handleSliderChange}
+                      minimumTrackTintColor="#000000"
+                      maximumTrackTintColor="rgba(75, 74, 74, 0.67)"
+                      thumbTintColor="#000000"
+                    />
 
-                          <View style={styles.controls}>
-                          <TouchableOpacity style={styles.controlButton} onPress={handleSkipBack}>
-                            <SkipBack size={24} color="#000000" />
-                          </TouchableOpacity>
-                              
-                              <TouchableOpacity 
-                                  style={styles.playButton} 
-                                  onPress={handlePlayPause}
-                              >
-                                  {isPlaying ? (
-                                      <Pause size={32} color="#000000" />
-                                  ) : (
-                                      <Play size={32} color="#000000" />
-                                  )}
-                              </TouchableOpacity>
+                    <View style={styles.controls}>
+                    <TouchableOpacity style={styles.controlButton} onPress={handleSkipBack}>
+                      <SkipBack size={24} color="#000000" />
+                    </TouchableOpacity>
+                        
+                        <TouchableOpacity 
+                            style={styles.playButton} 
+                            onPress={handlePlayPause}
+                        >
+                            {isPlaying ? (
+                                <Pause size={32} color="#000000" />
+                            ) : (
+                                <Play size={32} color="#000000" />
+                            )}
+                        </TouchableOpacity>
 
-                              <TouchableOpacity style={styles.controlButton} onPress={handleSkipForward}>
-                                <SkipForward size={24} color="#000000" />
-                              </TouchableOpacity>
-                          </View>
-                      </View>
-                  </View>
-              </View>
-
-              <FooterNavigation />
+                        <TouchableOpacity style={styles.controlButton} onPress={handleSkipForward}>
+                          <SkipForward size={24} color="#000000" />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+          </View>
+          <FooterNavigation />
           </LinearGradient>
       </SafeAreaView>
   );
