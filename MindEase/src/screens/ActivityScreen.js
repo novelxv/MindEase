@@ -20,7 +20,7 @@ const ActivityScreen = ({navigation}) => {
   return (
     <SafeAreaView style={globalStyles.container}>
       <ImageBackground 
-        source={require('../assets/watercolor-yellow.png')} 
+        source={require('../assets/watercolor-pinkyellow.png')} 
         style={globalStyles.backgroundimage}
         resizeMode="cover"
       >

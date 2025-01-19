@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Calendar } from 'lucide-react-native';
 
-const TodayCard = ({ onPress, variant = 'purple', buttonText }) => {
+const TodayCard = ({ onPress, variant = 'green', buttonText }) => {
   const today = new Date();
   const formattedDate = today.toLocaleDateString('en-GB', {
     day: '2-digit',
@@ -10,18 +10,18 @@ const TodayCard = ({ onPress, variant = 'purple', buttonText }) => {
     year: 'numeric',
   }).split('/').join('/');
 
-  const isPurple = variant === 'purple';
-  const containerStyle = isPurple ? styles.purpleContainer : styles.orangeContainer;
-  const titleStyle = isPurple ? styles.purpleTitle : styles.orangeTitle;
-  const dateStyle = isPurple ? styles.purpleDate : styles.orangeDate;
-  const buttonStyle = isPurple ? styles.purpleButton : styles.orangeButton;
-  const buttonTextStyle = isPurple ? styles.purpleButtonText : styles.orangeButtonText;
+  const isgreen = variant === 'green';
+  const containerStyle = isgreen ? styles.greenContainer : styles.orangeContainer;
+  const titleStyle = styles.Title;
+  const dateStyle = styles.Date;
+  const buttonStyle = styles.Button;
+  const buttonTextStyle = styles.ButtonText;
 
   return (
     <View style={[styles.container, containerStyle]}>
       <Text style={[styles.title, titleStyle]}>Today</Text>
       <View style={styles.dateContainer}>
-        <Calendar size={20} color={isPurple ? '#000' : '#FFF'} />
+        <Calendar size={20} color={'#FFF'} />
         <Text style={[styles.date, dateStyle]}>{formattedDate}</Text>
       </View>
       <TouchableOpacity style={[styles.button, buttonStyle]} onPress={onPress}>
@@ -72,34 +72,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
   },
-  purpleContainer: {
-    backgroundColor: '#FFFFFF',
+  greenContainer: {
+    backgroundColor: '#657C49',
   },
   orangeContainer: {
     backgroundColor: '#FF9F57',
   },
-  purpleTitle: {
-    color: '#000',
-  },
-  orangeTitle: {
+  Title: {
     color: '#FFF',
   },
-  purpleDate: {
-    color: '#000',
-  },
-  orangeDate: {
+  Date: {
     color: '#FFF',
   },
-  purpleButton: {
-    backgroundColor: '#343340',
-  },
-  orangeButton: {
+  Button: {
     backgroundColor: '#FFF',
   },
-  purpleButtonText: {
-    color: '#FFF',
-  },
-  orangeButtonText: {
+  ButtonText: {
     color: '#666',
   },
 });

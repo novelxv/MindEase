@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const JournalCard = ({ date, preview }) => {
+const JournalCard = ({ date, preview, emoji }) => {
   return (
     <View style={styles.container}>
       <View style={styles.dateContainer}>
         <Text style={styles.date}>{date}</Text>
       </View>
       <Text style={styles.preview}>{preview}</Text>
-      <Text style={styles.emoji}>😣</Text>
+      <Text style={styles.emoji}>{emoji}</Text>
     </View>
   );
 };

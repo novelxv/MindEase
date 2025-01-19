@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, ScrollView, TouchableOpacity } from 'react-native';
 import FooterNavigation from '../components/Footer';
 import TodayCard from '../components/TodayCard';
 import JournalCard from '../components/JournalCard';
@@ -22,8 +22,13 @@ const JournalScreen = () => {
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
-        <View style={styles.content}>
+          <ImageBackground 
+            source={require('../assets/watercolor-orange.png')} 
+            style={globalStyles.backgroundimage}
+            resizeMode="cover"
+          >
           <HeaderWithBackButton title="Journal" />
+        <View style={styles.content}>
           
           <TodayCard onPress={() => console.log('Today button clicked')} variant="orange" buttonText="✎ Write a journal today!"/>
           
@@ -47,11 +52,13 @@ const JournalScreen = () => {
                   key={index}
                   date={journal.date}
                   preview={journal.preview}
+                  emoji={"😞"}
                 />
               ))}
             </ScrollView>
           </View>
         </View>
+          </ImageBackground>
         <FooterNavigation />
         {filterModalVisible && (
           <FilterModal
