@@ -7,6 +7,7 @@ import HeaderWithBackButton from '../../components/HeaderWithBackButton';
 import { globalStyles } from '../../styles/global';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Play, Pause, SkipBack, SkipForward } from 'lucide-react-native';
+import { ChevronLeft, ChevronRight } from 'lucide-react-native';
 
 const stories = [
   {
@@ -92,6 +93,20 @@ const SleepStoriesScreen = ({navigation}) => {
         }
     };
 
+    const handleSkipBack = () => {
+      const currentIndex = stories.findIndex((story) => story.id === selectedStory.id);
+      const newIndex = (currentIndex - 1 + stories.length) % stories.length;
+      setSelectedStory(stories[newIndex]);
+    };
+    
+    const handleSkipForward = () => {
+      const currentIndex = stories.findIndex((story) => story.id === selectedStory.id);
+      const newIndex = (currentIndex + 1) % stories.length;
+      setSelectedStory(stories[newIndex]);
+    };
+    
+    
+
     return (
       <SafeAreaView style={globalStyles.container}>
           <LinearGradient
@@ -107,30 +122,24 @@ const SleepStoriesScreen = ({navigation}) => {
               />
 
               <View style={styles.mainContainer}>
-                  <View style={styles.imageSection}>
-                      <ScrollView 
-                          horizontal 
-                          showsHorizontalScrollIndicator={false}
-                          contentContainerStyle={styles.storiesContainer}
-                      >
-                          {stories.map((story) => (
-                              <TouchableOpacity 
-                                  key={story.id} 
-                                  onPress={() => setSelectedStory(story)}
-                                  style={[
-                                      styles.storyCard,
-                                      selectedStory.id === story.id && styles.selectedCard
-                                  ]}
-                              >
-                                  <Image 
-                                      source={story.image} 
-                                      style={styles.storyImage} 
-                                      resizeMode="cover" 
-                                  />
-                              </TouchableOpacity>
-                          ))}
-                      </ScrollView>
-                  </View>
+              <View style={styles.imageSection}>
+                <TouchableOpacity
+                  style={[styles.navButton, styles.leftNavButton]}
+                  onPress={handleSkipBack}
+                >
+                  <ChevronLeft size={20} color="#000000" />
+                </TouchableOpacity>
+
+                <Image source={selectedStory.image} style={styles.storyImage} resizeMode="cover" />
+
+                <TouchableOpacity
+                  style={[styles.navButton, styles.rightNavButton]}
+                  onPress={handleSkipForward}
+                >
+                  <ChevronRight size={20} color="#000000" />
+                </TouchableOpacity>
+              </View>
+
 
                   <View style={styles.playerContainer}>
                       <View style={styles.playerContent}>
@@ -154,9 +163,9 @@ const SleepStoriesScreen = ({navigation}) => {
                           />
 
                           <View style={styles.controls}>
-                              <TouchableOpacity style={styles.controlButton}>
-                                  <SkipBack size={24} color="#000000" />
-                              </TouchableOpacity>
+                          <TouchableOpacity style={styles.controlButton} onPress={handleSkipBack}>
+                            <SkipBack size={24} color="#000000" />
+                          </TouchableOpacity>
                               
                               <TouchableOpacity 
                                   style={styles.playButton} 
@@ -169,8 +178,8 @@ const SleepStoriesScreen = ({navigation}) => {
                                   )}
                               </TouchableOpacity>
 
-                              <TouchableOpacity style={styles.controlButton}>
-                                  <SkipForward size={24} color="#000000" />
+                              <TouchableOpacity style={styles.controlButton} onPress={handleSkipForward}>
+                                <SkipForward size={24} color="#000000" />
                               </TouchableOpacity>
                           </View>
                       </View>
@@ -206,8 +215,9 @@ const styles = StyleSheet.create({
       borderColor: '#FFF',
   },
   storyImage: {
-      width: '100%',
-      height: '100%',
+      width: '70%',
+      height: '70%',
+      margin: "auto",
       borderRadius: 20,
   },
   playerContainer: {
@@ -265,6 +275,23 @@ const styles = StyleSheet.create({
       backgroundColor: 'rgba(255, 255, 255, 0.8)',
       justifyContent: 'center',
       alignItems: 'center',
+  },
+  navButton: {
+    position: 'absolute',
+    top: '50%',
+    transform: [{ translateY: -25 }],
+    zIndex: 10,
+    padding: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  leftNavButton: {
+    left: 10,
+  },
+  rightNavButton: {
+    right: 10,
   },
 });
 
