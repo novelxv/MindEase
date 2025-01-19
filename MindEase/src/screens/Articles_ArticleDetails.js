@@ -1,104 +1,95 @@
-import React from 'react';
-import { ScrollView, View, Text, StyleSheet, ImageBackground, Dimensions, SafeAreaView } from 'react-native';
-import { useRoute } from '@react-navigation/native';
-import FooterNavigation from '../components/Footer';
-import HeaderWithBackButton from '../components/HeaderWithBackButton';
-import { useGlobalFonts, globalStyles } from '../styles/global';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Globe } from 'lucide-react-native';
-const { height: screenHeight } = Dimensions.get('window');
+import React, { useEffect, useState } from "react";
+import { ScrollView, View, Text, StyleSheet, ImageBackground, Dimensions, SafeAreaView, ActivityIndicator } from "react-native";
+import { useRoute } from "@react-navigation/native";
+import FooterNavigation from "../components/Footer";
+import HeaderWithBackButton from "../components/HeaderWithBackButton";
+import { useGlobalFonts, globalStyles } from "../styles/global";
+import { LinearGradient } from "expo-linear-gradient";
+import { fetchArticleById } from "../services/articleService";
 
-const articles = [
-  {
-    id: '1',
-    title: 'Why Sleep is Your Superpower?',
-    image: require("../assets/articles/sleep.png"),
-    content: {
-      mainText: 'Exercise is more than just about looking good. It improves your mental health, boosts energy levels, and enhances overall well-being.',
-    },
-    source: 'kumparan.com',
-  },
-  {
-    id: '2',
-    title: 'Turning Anger Into Action',
-    image: require("../assets/articles/anger.png"),
-    content: {
-      mainText: 'Exercise is more than just about looking good. It improves your mental health, boosts energy levels, and enhances overall well-being.',
-    },
-    source: 'example.com',
-  },
-  {
-    id: '3',
-    title: 'The Power of Positive Journaling',
-    image: require("../assets/articles/journaling.png"),
-    content: {
-      mainText: 'Exercise is more than just about looking good. It improves your mental health, boosts energy levels, and enhances overall well-being.',
-    },
-    source: 'example.com',
-  },
-  {
-    id: '4',
-    title: 'The Science of Deep Breathing',
-    image: require("../assets/articles/breathing.png"),
-    content: {
-      mainText: 'Exercise is more than just about looking good. It improves your mental health, boosts energy levels, and enhances overall well-being.',
-    },
-    source: 'example.com',
-  },
-];
+const { height: screenHeight } = Dimensions.get("window");
+
+const imageMapping = {
+  "../assets/articles/sleep.png": require("../assets/articles/sleep.png"),
+  "../assets/articles/anger.png": require("../assets/articles/anger.png"),
+  "../assets/articles/journaling.png": require("../assets/articles/journaling.png"),
+  "../assets/articles/breathing.png": require("../assets/articles/breathing.png"),
+  // Add more mappings as needed
+};
 
 const ArticleDetails = ({ navigation }) => {
   const route = useRoute();
-  const article = articles.find(a => a.id == route.params?.id) || articles[0];
+  const articleId = route.params?.id;
+  const [article, setArticle] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch article by ID
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        const fetchedArticle = await fetchArticleById(articleId);
+        setArticle(fetchedArticle);
+      } catch (error) {
+        console.error("Error fetching article:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (articleId) {
+      fetchArticle();
+    }
+  }, [articleId]);
+
+  if (loading) {
+    return (
+      <SafeAreaView style={globalStyles.container}>
+        <View style={styles.loaderContainer}>
+          <ActivityIndicator size="large" color="#0000ff" />
+          <Text style={globalStyles.text}>Loading article...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  if (!article) {
+    return (
+      <SafeAreaView style={globalStyles.container}>
+        <Text style={globalStyles.text}>Article not found.</Text>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={globalStyles.container}>
       <View style={globalStyles.contentWrapper}>
-        <HeaderWithBackButton 
-          title={article.title} 
-          onBackPress={() => navigation.navigate('Article')} 
-        />
-        
+        <HeaderWithBackButton title={article.title} onBackPress={() => navigation.navigate("Article")} />
+
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.heroSection}>
             <ImageBackground
-              source={article.image}
+              source={imageMapping[article.imagePath] || require("../assets/articles/breathing.png")} // Use the mapping object
               style={styles.heroImage}
               resizeMode="cover"
             >
-              <LinearGradient
-                colors={['transparent', 'rgba(0,0,0,0.7)']}
-                style={styles.titleGradient}
-              >
-                <Text style={styles.heroTitle}>
-                  {article.title}
-                </Text>
+              <LinearGradient colors={["transparent", "rgba(0,0,0,0.7)"]} style={styles.titleGradient}>
+                <Text style={styles.heroTitle}>{article.title}</Text>
               </LinearGradient>
             </ImageBackground>
           </View>
 
           <View style={styles.contentSection}>
             <LinearGradient
-              colors={['#FDEECF', '#FFF', '#FDEECE']}
+              colors={["#FDEECF", "#FFF", "#FDEECE"]}
               style={styles.backgroundGradient}
             >
               <View style={styles.contentCard}>
-                <Text style={styles.contentText}>
-                  {article.content.mainText}
-                </Text>
-
+                <Text style={styles.contentText}>{article.content}</Text>
               </View>
-                <View style={styles.sourceContainer}>
-                  <View style={styles.iconContainer}>
-                    <Globe size={20} color="#666" />
-                  </View>
-                  <Text style={styles.sourceText}>
-                    {article.source}
-                  </Text>
-                </View>
             </LinearGradient>
           </View>
         </ScrollView>
-        
+
         <FooterNavigation />
       </View>
     </SafeAreaView>
@@ -108,25 +99,25 @@ const ArticleDetails = ({ navigation }) => {
 const styles = StyleSheet.create({
   heroSection: {
     height: 200,
-    position: 'relative',
+    position: "relative",
   },
   heroImage: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   titleGradient: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
     height: 120,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     padding: 20,
   },
   heroTitle: {
-    color: 'white',
+    color: "white",
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     lineHeight: 34,
     paddingBottom: 5,
   },
@@ -139,15 +130,15 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    minHeight: Dimensions.get('window').height-400,
+    minHeight: screenHeight - 400,
   },
   contentCard: {
-    minHeight: Dimensions.get('window').height-400,
-    backgroundColor: 'white',
+    minHeight: screenHeight - 400,
+    backgroundColor: "white",
     margin: 15,
     borderRadius: 15,
     padding: 20,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -159,36 +150,14 @@ const styles = StyleSheet.create({
   contentText: {
     fontSize: 16,
     lineHeight: 24,
-    color: '#333',
+    color: "#333",
     marginBottom: 20,
+    textAlign: "justify",
   },
-  sourceContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  iconContainer: {
-    backgroundColor: '#fff',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  sourceText: {
-    fontSize: 16,
-    color: '#666',
+  loaderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

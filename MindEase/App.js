@@ -24,13 +24,28 @@ import { addMood, getMoods } from './src/services/firestoreService';
 import { fetchHuggingFaceResponse } from './src/services/huggingFaceService';
 
 import { MoodProvider } from './src/context/MoodContext';
+import { addArticle } from './src/services/articleService';
 
 const Stack = createStackNavigator();
+
+const addNewArticle = async () => {
+    const title = "The Science of Deep Breathing";
+    const imagePath = "../assets/articles/breathing.png";
+    const content = "Deep breathing, also known as diaphragmatic breathing, is a simple yet powerful technique to calm your mind and body.\n\nThis practice involves taking slow, deep breaths that fully expand your lungs and engage your diaphragm.\n\nWhen you breathe deeply, it activates your parasympathetic nervous system, which helps reduce stress and anxiety by lowering your heart rate and relaxing your muscles. It also increases oxygen flow to your brain, enhancing focus and emotional regulation.\n\nResearch shows that just a few minutes of deep breathing can improve mood, reduce cortisol levels, and even lower blood pressure. It’s a natural, accessible way to regain control during moments of overwhelm.\n\nStart small: inhale for 4 seconds, hold for 4 seconds, and exhale for 6 seconds. Repeat for a few minutes to experience the calming effects of this science-backed practice.";
+    
+    try {
+        const articleId = await addArticle(title, imagePath, content);
+        console.log("New article added with ID:", articleId);
+    } catch (error) {
+        console.error("Error adding article:", error);
+    }
+};
 
 export default function App() {
     console.log("Firebase initialized:", app.name);
     const fontsLoaded = useGlobalFonts();
     useEffect(() => {
+        // addNewArticle();
         // TEST FIRESTORE
         // addMood("dead");
         // getMoods();
@@ -44,24 +59,24 @@ export default function App() {
     
     return (
         <MoodProvider> 
-            <NavigationContainer>
-                <Stack.Navigator screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="Splash" component={SplashScreen} />
-                <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-                <Stack.Screen name="Home" component={HomeScreen} />
-                <Stack.Screen name="Chat" component={ChatScreen} />
-                <Stack.Screen name="Journal" component={JournalScreen} />
-                <Stack.Screen name="Activity" component={ActivityScreen} />
-                <Stack.Screen name="Article" component={ArticleScreen} />
-                <Stack.Screen name="ArticleDetails" component={ArticleDetails} />
-                <Stack.Screen name="MeditationScreen" component={MeditationScreen} />
-                <Stack.Screen name="SleepStoriesScreen" component={SleepStoriesScreen} />
-                <Stack.Screen name="CreativeExpressionScreen" component={CreativeExpressionScreen} />
-                <Stack.Screen name="CreativeExpressionScreenCanvas" component={CreativeExpressionScreenCanvas} />
-                <Stack.Screen name="BreathingScreen" component={BreathingScreen} />
-                <Stack.Screen name="ChatDetailsScreen" component={ChatDetailsScreen} />
-            </Stack.Navigator>
-            </NavigationContainer>
+        <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Splash" component={SplashScreen} />
+        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Chat" component={ChatScreen} />
+        <Stack.Screen name="Journal" component={JournalScreen} />
+        <Stack.Screen name="Activity" component={ActivityScreen} />
+        <Stack.Screen name="Article" component={ArticleScreen} />
+        <Stack.Screen name="ArticleDetails" component={ArticleDetails} />
+        <Stack.Screen name="MeditationScreen" component={MeditationScreen} />
+        <Stack.Screen name="SleepStoriesScreen" component={SleepStoriesScreen} />
+        <Stack.Screen name="CreativeExpressionScreen" component={CreativeExpressionScreen} />
+        <Stack.Screen name="CreativeExpressionScreenCanvas" component={CreativeExpressionScreenCanvas} />
+        <Stack.Screen name="BreathingScreen" component={BreathingScreen} />
+        <Stack.Screen name="ChatDetailsScreen" component={ChatDetailsScreen} />
+        </Stack.Navigator>
+        </NavigationContainer>
         </MoodProvider>
     );
 }
@@ -84,5 +99,4 @@ export default function App() {
 //     backgroundColor: '#fff',
 //     alignItems: 'center',
 //     justifyContent: 'center',
-//   },
-// });
+//   },// });
