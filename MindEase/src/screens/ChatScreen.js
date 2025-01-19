@@ -9,63 +9,47 @@ import { History } from 'lucide-react-native';
 const ChatScreen = () => {
   const chats = [
     {
-      idChat: 1,
-      lastUpdated: '2025-01-19',
+      title: 'sebuah judul 1',
+      date: '2025-01-19T10:30:00.000Z',
       bubbleChats: [
-        { idBubbleChat: 1, content: "Hey there! How are you?" },
-        { idBubbleChat: 2, content: "I'm doing great, thanks for asking. What about you?" },
-        { idBubbleChat: 3, content: "Not bad, just working on some coding projects." },
-        { idBubbleChat: 4, content: "Are you free this weekend? Are you free this weekend? Are you free this weekend? Are you free this weekend? Are you free this weekend?" },
+        { sender: "user", message: "Hey there! How are you?", timestamp: "2025-01-10T10:00:00.000Z" },
+        { sender: "minnie", message: "I'm doing great, thanks for asking. What about you?", timestamp: "2025-01-10T10:10:00.000Z" },
+        { sender: "user", message: "Not bad, just working on some coding projects.", timestamp: "2025-01-10T10:20:00.000Z" },
+        { sender: "minnie", message: "Are you free this weekend? Are you free this weekend? Are you free this weekend? Are you free this weekend? Are you free this weekend?", timestamp: "2025-01-10T10:30:00.000Z" },
       ],
     },
     {
-      idChat: 2,
-      lastUpdated: '2024-12-21',
+      title: 'sebuah judul 2',
+      date: '2024-12-21T10:30:00.000Z',
       bubbleChats: [
-        { idBubbleChat: 5, content: "Yes, I am! Do you have something in mind?" },
-        { idBubbleChat: 6, content: "How about a movie night?" },
-        { idBubbleChat: 7, content: "Sounds great! Let's do it." },
-        { idBubbleChat: 8, content: "Have you finished the report?" },
+        { sender: "user", message: "Yes, I am! Do you have something in mind?", timestamp: '2024-12-21T10:30:00.000Z' },
+        { sender: "minnie", message: "How about a movie night?", timestamp: '2024-12-21T10:30:00.000Z' },
+        { sender: "user", message: "Sounds great! Let's do it.", timestamp: '2024-12-21T10:30:00.000Z' },
+        { sender: "minnie", message: "Have you finished the report?", timestamp: '2024-12-21T10:30:00.000Z' },
       ],
     },
     {
-      idChat: 3,
-      lastUpdated: '2023-12-21',
+      title: 'sebuah judul 3',
+      date: '2023-12-21T10:30:00.000Z',
       bubbleChats: [
-        { idBubbleChat: 9, content: "Not yet, but I'll complete it by tomorrow morning." },
-        { idBubbleChat: 10, content: "Alright, let me know if you need any help." },
+        { sender: "user", message: "Not yet, but I'll complete it by tomorrow morning.", timestamp: '2023-12-21T10:30:00.000Z' },
+        { sender: "minnie", message: "Alright, let me know if you need any help.", timestamp: '2023-12-21T10:30:00.000Z' },
       ],
     },
     {
-      idChat: 4,
-      lastUpdated: '2025-01-10',
+      title: 'sebuah judul 4',
+      date: '2025-01-10T10:30:00.000Z',
       bubbleChats: [
-        { idBubbleChat: 9, content: "Not yet, but I'll complete it by tomorrow morning." },
-        { idBubbleChat: 10, content: "Alright, let me know if you need any help." },
+        { sender: "user", message: "Not yet, but I'll complete it by tomorrow morning.", timestamp: '2025-01-10T10:30:00.000Z' },
+        { sender: "minnie", message: "Alright, let me know if you need any help.", timestamp: '2025-01-10T10:30:00.000Z' },
       ],
     },
     {
-      idChat: 5,
-      lastUpdated: '2024-12-21',
+      title: 'sebuah judul 5',
+      date: '2024-12-21T10:30:00.000Z',
       bubbleChats: [
-        { idBubbleChat: 9, content: "Not yet, but I'll complete it by tomorrow morning." },
-        { idBubbleChat: 10, content: "Alright, let me know if you need any help." },
-      ],
-    },
-    {
-      idChat: 6,
-      lastUpdated: '21/12/2024',
-      bubbleChats: [
-        { idBubbleChat: 9, content: "Not yet, but I'll complete it by tomorrow morning." },
-        { idBubbleChat: 10, content: "Alright, let me know if you need any help." },
-      ],
-    },
-    {
-      idChat: 7,
-      lastUpdated: '21/12/2024',
-      bubbleChats: [
-        { idBubbleChat: 9, content: "Not yet, but I'll complete it by tomorrow morning." },
-        { idBubbleChat: 10, content: "Alright, let me know if you need any help." },
+        { sender: "user", message: "Not yet, but I'll complete it by tomorrow morning.", timestamp: '2024-12-21T10:30:00.000Z' },
+        { sender: "minnie", message: "Alright, let me know if you need any help.", timestamp: '2024-12-21T10:30:00.000Z' },
       ],
     },
   ];
@@ -78,10 +62,10 @@ const ChatScreen = () => {
         resizeMode="cover"
       >
         <HeaderWithBackButton title="Chat" />
-        <View style={styles.content}>
+        <View style={styles.message}>
           <View style={styles.imagetopper}>
             <View style={styles.chatBubble}>
-              <Text style={[globalStyles.content, styles.chatBubbleText]}>How can Minnie help you today?</Text>
+              <Text style={[globalStyles.message, styles.chatBubbleText]}>How can Minnie help you today?</Text>
             </View>
             <Image 
               source={require('../assets/Minnie-Chat.png')} 
@@ -98,7 +82,7 @@ const ChatScreen = () => {
             <History size={20} color="#333333" style={styles.historyIcon}/>
             <Text style={globalStyles.header}>History</Text>
           </View>
-          <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+          <ScrollView messageContainerStyle={styles.scrollmessage} showsVerticalScrollIndicator={false}>
           <ChatHistory chats={chats} />
           </ScrollView>
         </View>
@@ -109,7 +93,7 @@ const ChatScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  content: {
+  message: {
     flex: 1,
     width: '100%',
     paddingHorizontal: 20,
@@ -118,7 +102,7 @@ const styles = StyleSheet.create({
   },
   imagetopper: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifymessage: 'space-between',
     alignItems: 'flex-start',
     position: 'relative',
     marginBottom: 20,

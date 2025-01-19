@@ -1,11 +1,16 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { MessageCircleHeart } from 'lucide-react-native';
+import { globalStyles } from '../styles/global';
 
-// Helper function to calculate relative time
-const getRelativeTime = (lastUpdated) => {
+const formatDateTime = (isoDateTime) => {
+  const date = new Date(isoDateTime);
+  return date.toLocaleString();
+};
+
+const getRelativeTime = (date) => {
   const currentDate = new Date();
-  const updatedDate = new Date(lastUpdated);
+  const updatedDate = new Date(date);
   const diffInMilliseconds = currentDate - updatedDate;
 
   const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
@@ -28,15 +33,22 @@ const getRelativeTime = (lastUpdated) => {
 };
 
 const ChatHistory = ({ chats }) => {
+  if (chats.length === 0) {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={globalStyles.header}>No messages yet</Text>
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       {chats.map((chat) => {
         const lastBubbleChat =
           chat.bubbleChats.length > 0
-            ? chat.bubbleChats[chat.bubbleChats.length - 1].content
+            ? chat.bubbleChats[chat.bubbleChats.length - 1].message
             : "No messages yet";
 
-        const relativeTime = getRelativeTime(chat.lastUpdated);
+        const relativeTime = getRelativeTime(formatDateTime(chat.date));
 
         return (
           <TouchableOpacity key={chat.idChat} style={styles.chatItem}>
@@ -44,7 +56,10 @@ const ChatHistory = ({ chats }) => {
               <MessageCircleHeart size={20} color="#333333" />
             </View>
             <View style={styles.chatContent}>
-              <Text style={styles.chatText} numberOfLines={2}>
+            <Text style={[globalStyles.content,styles.chatTitle]} numberOfLines={2}>
+                {chat.title}
+              </Text>
+              <Text style={[globalStyles.content,styles.chatText]} numberOfLines={2}>
                 {lastBubbleChat}
               </Text>
               <Text style={styles.timeText}>{relativeTime}</Text>
@@ -58,6 +73,12 @@ const ChatHistory = ({ chats }) => {
 const styles = StyleSheet.create({
   container: {
     marginTop: 20,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 50,
   },
   chatItem: {
     flexDirection: 'row',
@@ -93,6 +114,12 @@ const styles = StyleSheet.create({
     color: '#666666',
     textAlign: 'right',
     alignSelf: 'flex-end',
+  },
+  chatTitle: {
+    fontSize: 14,
+    color: '#333333',
+    marginBottom: 4,
+    fontWeight: "bold",
   },
 });
 

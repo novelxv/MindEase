@@ -38,7 +38,7 @@ const ArticleScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
   cardWrapper: {
-    marginBottom: 20,
+    marginBottom: 10,
   },
 });
 
