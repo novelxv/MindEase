@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useMood } from '../context/MoodContext';
+import { saveMood } from '../services/moodService';
 
 import TerribleBefore from '../assets/moodRating/terrible-icon-before.svg';
 import TerribleAfter from '../assets/moodRating/terrible-icon-after';
@@ -29,12 +30,17 @@ const MoodRatingModal = ({ visible, onClose }) => {
     setSelectedMood(index);
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (selectedMood !== null) {
-      setMood(moods[selectedMood].label);
+      const moodLabel = moods[selectedMood].label;  
+      setMood(moodLabel);
+
+      const currentDate = new Date().toISOString().split('T')[0];  
+      await saveMood(currentDate, moodLabel);
+
       onClose();
+      }
     }
-  };
 
   return (
     <Modal

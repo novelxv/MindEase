@@ -11,6 +11,7 @@ import GoodAfter from '../assets/moodRating/good-icon-after';
 import GreatBefore from '../assets/moodRating/great-icon-before.svg';  
 import GreatAfter from '../assets/moodRating/great-icon-after';  
 import { useMood } from '../context/MoodContext'; 
+import { saveMood } from '../services/moodService';
 
 const MoodRatingCard = () => {  
   const { mood, setMood } = useMood(); 
@@ -23,9 +24,13 @@ const MoodRatingCard = () => {
     { label: 'Great', before: GreatBefore, after: GreatAfter },  
   ];  
 
-  const handleMoodSelect = (selectedMood) => {  
+  const handleMoodSelect = async (selectedMood) => {  
     setMood(selectedMood);
+    
+    const currentDate = new Date().toISOString().split('T')[0];
+    await saveMood(currentDate, selectedMood);
   };  
+
 
   return (  
     <View style={styles.card}>  
