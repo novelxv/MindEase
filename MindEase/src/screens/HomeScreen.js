@@ -23,25 +23,6 @@ const HomeScreen = () => {
     setMoodModalVisible(false);
   };
 
-  const recommendedActivities = [
-    {
-      title: 'Meditation Session',
-      imageUrl: '../assets/articles/sleep.png',
-    },
-    {
-      title: 'Creative Emotional Expression',
-      imageUrl: '/placeholder.svg?height=100&width=400',
-    },
-    {
-      title: 'Sleep Stories & White Noise',
-      imageUrl: '/placeholder.svg?height=100&width=400',
-    },
-    {
-      title: 'Guided Breathing & Relaxation Sessions',
-      imageUrl: '/placeholder.svg?height=100&width=400',
-    },
-  ];
-
   const otherActivities = [
     { title: 'Sports', imageUrl: '/placeholder.svg?height=80&width=150' },
     { title: 'Sports', imageUrl: '/placeholder.svg?height=80&width=150' },
@@ -68,14 +49,8 @@ const HomeScreen = () => {
 
           <Calendar />
 
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Recommended Activities</Text>
-            {recommendedActivities.map((activity, index) => (
-              <ActivityCard key={index} title={activity.title} imageUrl={activity.imageUrl} />
-            ))}
-          </View>
           <View style={[styles.section, styles.lastSection]}>
-              <Text style={styles.sectionTitle}>Other Activities You Might Try</Text>
+              <Text style={styles.sectionTitle}>Recommended Activities</Text>
               <View style={styles.otherActivitiesGrid}>
                 {otherActivities.map((activity, index) => (
                   <View key={index} style={styles.gridItem}>

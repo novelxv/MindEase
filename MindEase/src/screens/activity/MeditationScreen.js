@@ -15,7 +15,7 @@ const stories = [
     title: 'Welcome to Your Meditation Journey!',
     description: 'Inhale deeply… hold… exhale slowly… Focus on your breath as it flows naturally',
     image: require('../../assets/activities/sleep_stories/Stories1.png'),
-    audio: require('../../assets/activities/sleep_stories/memories.mp3'),
+    audio: require('../../assets/activities/sleep_stories/meditation.mp3'),
   },
 ];
 
