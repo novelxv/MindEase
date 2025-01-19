@@ -112,18 +112,26 @@ const SleepStoriesScreen = ({navigation}) => {
 
     const handleSkipBack = async () => {
       if (sound) {
-        await sound.stopAsync();
-        await sound.unloadAsync();
+        const status = await sound.getStatusAsync();
+    
+        // Reset durasi ketika tidak pada 0 seconds  
+        if (status.positionMillis > 0) {
+          await sound.setPositionAsync(0);
+          setPosition(0);
+        } else {
+          await sound.stopAsync();
+          await sound.unloadAsync();
+    
+          const currentIndex = stories.findIndex((story) => story.id === selectedStory.id);
+          const newIndex = (currentIndex - 1 + stories.length) % stories.length;
+          const newStory = stories[newIndex];
+    
+          setSelectedStory(newStory);
+          setIsPlaying(false);
+        }
       }
-    
-      const currentIndex = stories.findIndex((story) => story.id === selectedStory.id);
-      const newIndex = (currentIndex - 1 + stories.length) % stories.length;
-      const newStory = stories[newIndex];
-    
-      setSelectedStory(newStory);
-      setIsPlaying(false);
-      loadNewStory(newStory);
     };
+    
     
     const handleSkipForward = async () => {
       if (sound) {
@@ -137,30 +145,7 @@ const SleepStoriesScreen = ({navigation}) => {
     
       setSelectedStory(newStory);
       setIsPlaying(false);
-      loadNewStory(newStory);
     };
-    
-    
-    const loadNewStory = async (story) => {
-      try {
-        setDuration(0);
-        const { sound: newSound } = await Audio.Sound.createAsync(
-          story.audio,
-          {},
-          (status) => {
-            if (status.isLoaded) {
-              setPosition(status.positionMillis / 1000);
-              setDuration(status.durationMillis / 1000);
-            }
-          }
-        );
-        setSound(newSound);
-        setPosition(0);
-      } catch (error) {
-        console.error('Error loading new story:', error);
-      }
-    };
-        
 
     return (
       <SafeAreaView style={globalStyles.container}>
@@ -173,7 +158,14 @@ const SleepStoriesScreen = ({navigation}) => {
           <HeaderWithBackButton 
               title="Sleep Stories & White Noise" 
               isWhite={true} 
-              onBackPress={() => navigation.navigate('Activity')} 
+              onBackPress={async () => {
+                if (sound) {
+                    await sound.stopAsync();
+                    await sound.unloadAsync();
+                    setSound(null);
+                }
+                navigation.navigate('Activity');
+            }}
           />
 
           <View style={styles.mainContainer}>
