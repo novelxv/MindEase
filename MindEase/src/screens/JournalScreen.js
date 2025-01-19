@@ -34,7 +34,7 @@ const JournalScreen = () => {
           
           <View style={styles.prevJournalSection}>
             <View style={styles.prevJournalHeader}>
-              <Text style={styles.prevJournalTitle}>Prev. Journal</Text>
+              <Text style={[globalStyles.header, styles.prevJournalTitle]}>Prev. Journal</Text>
               <TouchableOpacity onPress={() => setFilterModalVisible(true)}>
                 <Text style={styles.filterText}>Filter</Text>
               </TouchableOpacity>
@@ -42,7 +42,7 @@ const JournalScreen = () => {
             
             <View style={styles.dateNavigation}>
               <Text style={styles.dateNavigationText}>{'<'}</Text>
-              <Text style={styles.dateRange}>Dec 16 - 22 2024</Text>
+              <Text style={[globalStyles.content, styles.dateRange]}>Dec 16 - 22 2024</Text>
               <Text style={styles.dateNavigationText}>{'>'}</Text>
             </View>
 

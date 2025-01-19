@@ -6,12 +6,24 @@ import HeaderWithBackButton from '../components/HeaderWithBackButton';
 import ChatHistory from '../components/ChatHistory';
 import { globalStyles } from '../styles/global';
 import { History } from 'lucide-react-native';
-const ChatScreen = () => {
+const ChatScreen = ({navigation}) => {
   const chats = [
     {
       title: 'sebuah judul 1',
       date: '2025-01-19T10:30:00.000Z',
       bubbleChats: [
+        { sender: "user", message: "Hey there! How are you?", timestamp: "2025-01-10T10:00:00.000Z" },
+        { sender: "minnie", message: "I'm doing great, thanks for asking. What about you?", timestamp: "2025-01-10T10:10:00.000Z" },
+        { sender: "user", message: "Hey there! How are you?", timestamp: "2025-01-10T10:00:00.000Z" },
+        { sender: "minnie", message: "I'm doing great, thanks for asking. What about you?", timestamp: "2025-01-10T10:10:00.000Z" },
+        { sender: "user", message: "Hey there! How are you?", timestamp: "2025-01-10T10:00:00.000Z" },
+        { sender: "minnie", message: "I'm doing great, thanks for asking. What about you?", timestamp: "2025-01-10T10:10:00.000Z" },
+        { sender: "user", message: "Hey there! How are you?", timestamp: "2025-01-10T10:00:00.000Z" },
+        { sender: "minnie", message: "I'm doing great, thanks for asking. What about you?", timestamp: "2025-01-10T10:10:00.000Z" },
+        { sender: "user", message: "Hey there! How are you?", timestamp: "2025-01-10T10:00:00.000Z" },
+        { sender: "minnie", message: "I'm doing great, thanks for asking. What about you?", timestamp: "2025-01-10T10:10:00.000Z" },
+        { sender: "user", message: "Hey there! How are you?", timestamp: "2025-01-10T10:00:00.000Z" },
+        { sender: "minnie", message: "I'm doing great, thanks for asking. What about you?", timestamp: "2025-01-10T10:10:00.000Z" },
         { sender: "user", message: "Hey there! How are you?", timestamp: "2025-01-10T10:00:00.000Z" },
         { sender: "minnie", message: "I'm doing great, thanks for asking. What about you?", timestamp: "2025-01-10T10:10:00.000Z" },
         { sender: "user", message: "Not bad, just working on some coding projects.", timestamp: "2025-01-10T10:20:00.000Z" },
@@ -46,10 +58,10 @@ const ChatScreen = () => {
     },
     {
       title: 'sebuah judul 5',
-      date: '2024-12-21T10:30:00.000Z',
+      date: '2024-11-21T10:30:00.000Z',
       bubbleChats: [
-        { sender: "user", message: "Not yet, but I'll complete it by tomorrow morning.", timestamp: '2024-12-21T10:30:00.000Z' },
-        { sender: "minnie", message: "Alright, let me know if you need any help.", timestamp: '2024-12-21T10:30:00.000Z' },
+        { sender: "user", message: "Not yet, but I'll complete it by tomorrow morning.", timestamp: '2024-11-21T10:30:00.000Z' },
+        { sender: "minnie", message: "Alright, let me know if you need any help.", timestamp: '2024-11-21T10:30:00.000Z' },
       ],
     },
   ];
@@ -65,7 +77,7 @@ const ChatScreen = () => {
         <View style={styles.message}>
           <View style={styles.imagetopper}>
             <View style={styles.chatBubble}>
-              <Text style={[globalStyles.message, styles.chatBubbleText]}>How can Minnie help you today?</Text>
+              <Text style={[globalStyles.content, styles.chatBubbleText]}>How can Minnie help you today?</Text>
             </View>
             <Image 
               source={require('../assets/Minnie-Chat.png')} 
@@ -73,17 +85,17 @@ const ChatScreen = () => {
               />
           </View>
           <TodayCard 
-            onPress={() => console.log('Today button clicked')} 
+            onPress={() => {navigation.navigate('ChatDetailsScreen')}} 
             variant="green" 
             buttonText="Write a new message to Minnie"
             style={styles.todaycard}
           />
           <View style={styles.historyHeader}>
             <History size={20} color="#333333" style={styles.historyIcon}/>
-            <Text style={globalStyles.header}>History</Text>
+            <Text style={[globalStyles.header, styles.header]}>History</Text>
           </View>
           <ScrollView messageContainerStyle={styles.scrollmessage} showsVerticalScrollIndicator={false}>
-          <ChatHistory chats={chats} />
+          <ChatHistory chats={chats} navigation={navigation}/>
           </ScrollView>
         </View>
         <FooterNavigation />
@@ -115,6 +127,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     padding: 12,
     borderRadius: 16,
+    borderBottomRightRadius: 0,
     maxWidth: '50%',
     marginRight: 8,
     shadowColor: '#000',
@@ -143,7 +156,6 @@ const styles = StyleSheet.create({
   historyHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
     paddingHorizontal: 4,
   },
   historyIcon: {
@@ -151,6 +163,9 @@ const styles = StyleSheet.create({
     height: 20,
     marginRight: 12,
   },
+  header: {
+    fontSize: 20,
+  }
 });
 
 

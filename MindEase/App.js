@@ -15,6 +15,7 @@ import SleepStoriesScreen from './src/screens/activity/SleepStoriesScreen';
 import CreativeExpressionScreen from './src/screens/activity/CreativeExpressionScreen';
 import CreativeExpressionScreenCanvas from './src/screens/activity/CreativeExpressionScreenCanvas';
 import BreathingScreen from './src/screens/activity/BreathingScreen';
+import ChatDetailsScreen from './src/screens/Chat_ChatDetailsScreen'
 
 import { useGlobalFonts } from './src/styles/global';
 
@@ -58,6 +59,7 @@ export default function App() {
                 <Stack.Screen name="CreativeExpressionScreen" component={CreativeExpressionScreen} />
                 <Stack.Screen name="CreativeExpressionScreenCanvas" component={CreativeExpressionScreenCanvas} />
                 <Stack.Screen name="BreathingScreen" component={BreathingScreen} />
+                <Stack.Screen name="ChatDetailsScreen" component={ChatDetailsScreen} />
             </Stack.Navigator>
             </NavigationContainer>
         </MoodProvider>

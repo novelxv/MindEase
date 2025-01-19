@@ -14,9 +14,6 @@ const getRelativeTime = (date) => {
   const diffInMilliseconds = currentDate - updatedDate;
 
   const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
-  console.log(diffInDays + "INI BEDA HARINYA")
-  console.log(currentDate + "INI HARI INI")
-  console.log(updatedDate + "INI HARINYA")
   if (diffInDays == 0) {
     return `Today`;
   } else if (diffInDays < 7) {
@@ -32,7 +29,7 @@ const getRelativeTime = (date) => {
   }
 };
 
-const ChatHistory = ({ chats }) => {
+const ChatHistory = ({ chats, navigation }) => {
   if (chats.length === 0) {
     return (
       <View style={styles.emptyContainer}>
@@ -51,7 +48,9 @@ const ChatHistory = ({ chats }) => {
         const relativeTime = getRelativeTime(formatDateTime(chat.date));
 
         return (
-          <TouchableOpacity key={chat.idChat} style={styles.chatItem}>
+          <TouchableOpacity key={chat.date} style={styles.chatItem} onPress={() =>
+            navigation.navigate('ChatDetailsScreen', { title: chat.title, date: chat.date, bubbleChats: chat.bubbleChats })
+          }>
             <View style={styles.chatIconContainer}>
               <MessageCircleHeart size={20} color="#333333" />
             </View>

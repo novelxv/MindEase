@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Calendar } from 'lucide-react-native';
+import { globalStyles } from '../styles/global';
 
 const TodayCard = ({ onPress, variant = 'green', buttonText }) => {
   const today = new Date();
@@ -12,20 +13,16 @@ const TodayCard = ({ onPress, variant = 'green', buttonText }) => {
 
   const isgreen = variant === 'green';
   const containerStyle = isgreen ? styles.greenContainer : styles.orangeContainer;
-  const titleStyle = styles.Title;
-  const dateStyle = styles.Date;
-  const buttonStyle = styles.Button;
-  const buttonTextStyle = styles.ButtonText;
 
   return (
     <View style={[styles.container, containerStyle]}>
-      <Text style={[styles.title, titleStyle]}>Today</Text>
+      <Text style={[styles.title]}>Today</Text>
       <View style={styles.dateContainer}>
         <Calendar size={20} color={'#FFF'} />
-        <Text style={[styles.date, dateStyle]}>{formattedDate}</Text>
+        <Text style={[styles.date]}>{formattedDate}</Text>
       </View>
-      <TouchableOpacity style={[styles.button, buttonStyle]} onPress={onPress}>
-        <Text style={[styles.buttonText, buttonTextStyle]}>{buttonText}</Text>
+      <TouchableOpacity style={[styles.button]} onPress={onPress}>
+        <Text style={[globalStyles.content, styles.buttonText]}>{buttonText}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -38,11 +35,20 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 3,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 8,
+    color: '#FFF',
   },
   dateContainer: {
     flexDirection: 'row',
@@ -53,8 +59,10 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 16,
     alignContent: "center",
+    color: '#FFF',
   },
   button: {
+    backgroundColor: '#FFF',
     borderRadius: 25,
     paddingVertical: 12,
     paddingHorizontal: 20,
@@ -70,25 +78,14 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center',
-    fontSize: 16,
+    color: '#666',
+    fontSize: 14,
   },
   greenContainer: {
     backgroundColor: '#657C49',
   },
   orangeContainer: {
-    backgroundColor: '#FF9F57',
-  },
-  Title: {
-    color: '#FFF',
-  },
-  Date: {
-    color: '#FFF',
-  },
-  Button: {
-    backgroundColor: '#FFF',
-  },
-  ButtonText: {
-    color: '#666',
+    backgroundColor: '#FF7E0C',
   },
 });
 
