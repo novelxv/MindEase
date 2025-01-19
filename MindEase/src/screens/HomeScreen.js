@@ -7,12 +7,11 @@ import QuoteCard from '../components/QuoteCard';
 import ActivityCard from '../components/ActivityCard';
 import { useGlobalFonts, globalStyles } from '../styles/global';
 import Calendar from '../components/Calendar';
-
-
+import { useMood } from '../context/MoodContext';
 
 const HomeScreen = () => {
   const [moodModalVisible, setMoodModalVisible] = useState(false); 
-  const [mood, setMood] = useState(null);
+  const { mood } = useMood();
 
   useEffect(() => {
     if (mood === null) {
@@ -20,8 +19,7 @@ const HomeScreen = () => {
     }
   }, [mood]);
 
-  const handleMoodSelection = (mood) => {
-    setMood(mood);
+  const handleMoodSelection = (selectedMood) => {
     setMoodModalVisible(false);
   };
 

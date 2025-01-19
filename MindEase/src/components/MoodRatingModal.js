@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useMood } from '../context/MoodContext';
 
 import TerribleBefore from '../assets/moodRating/terrible-icon-before.svg';
 import TerribleAfter from '../assets/moodRating/terrible-icon-after';
@@ -12,7 +13,8 @@ import GoodAfter from '../assets/moodRating/good-icon-after';
 import GreatBefore from '../assets/moodRating/great-icon-before.svg';
 import GreatAfter from '../assets/moodRating/great-icon-after';
 
-const MoodRatingModal = ({ visible, onClose, onSelectMood }) => {
+const MoodRatingModal = ({ visible, onClose }) => {
+  const { setMood } = useMood(); 
   const [selectedMood, setSelectedMood] = useState(null);
 
   const moods = [
@@ -29,7 +31,7 @@ const MoodRatingModal = ({ visible, onClose, onSelectMood }) => {
 
   const handleContinue = () => {
     if (selectedMood !== null) {
-      onSelectMood(moods[selectedMood].label);
+      setMood(moods[selectedMood].label);
       onClose();
     }
   };

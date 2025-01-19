@@ -10,9 +10,10 @@ import GoodBefore from '../assets/moodRating/good-icon-before.svg';
 import GoodAfter from '../assets/moodRating/good-icon-after';  
 import GreatBefore from '../assets/moodRating/great-icon-before.svg';  
 import GreatAfter from '../assets/moodRating/great-icon-after';  
+import { useMood } from '../context/MoodContext'; 
 
-const MoodRatingCard = ({ onMoodSelect }) => {  
-  const [selectedMood, setSelectedMood] = useState(null);  
+const MoodRatingCard = () => {  
+  const { mood, setMood } = useMood(); 
 
   const moods = [  
     { label: 'Terrible', before: TerribleBefore, after: TerribleAfter },  
@@ -22,9 +23,8 @@ const MoodRatingCard = ({ onMoodSelect }) => {
     { label: 'Great', before: GreatBefore, after: GreatAfter },  
   ];  
 
-  const handleMoodSelect = (index) => {  
-    setSelectedMood(index);  
-    onMoodSelect(moods[index].label);
+  const handleMoodSelect = (selectedMood) => {  
+    setMood(selectedMood);
   };  
 
   return (  
@@ -32,20 +32,20 @@ const MoodRatingCard = ({ onMoodSelect }) => {
       <Text style={styles.title}>How's Your Day Today?</Text>  
       <Text style={styles.subtitle}>Rate Your Mood</Text>  
       <View style={styles.moodContainer}>  
-        {moods.map((mood, index) => (  
+        {moods.map((moodOption, index) => (  
           <TouchableOpacity   
             key={index}  
             style={styles.moodButton}  
-            onPress={() => handleMoodSelect(index)}
+            onPress={() => handleMoodSelect(moodOption.label)}
           >  
             <View>  
-              {selectedMood === index ? (  
-                <mood.after width={40} height={40} /> 
+              {mood === moodOption.label ? (  
+                <moodOption.after width={40} height={40} /> 
               ) : (  
-                <mood.before width={40} height={40} /> 
+                <moodOption.before width={40} height={40} /> 
               )}  
             </View>  
-            <Text style={styles.moodLabel}>{mood.label}</Text>  
+            <Text style={styles.moodLabel}>{moodOption.label}</Text>  
           </TouchableOpacity>  
         ))}  
       </View>  

@@ -22,6 +22,8 @@ import { app } from './src/services/firebaseConfig';
 import { addMood, getMoods } from './src/services/firestoreService';
 import { fetchHuggingFaceResponse } from './src/services/huggingFaceService';
 
+import { MoodProvider } from './src/context/MoodContext';
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -40,23 +42,25 @@ export default function App() {
     }, []);
     
     return (
-        <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* <Stack.Screen name="Splash" component={SplashScreen} />
-        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} /> */}
-        <Stack.Screen name="Chat" component={ChatScreen} />
-        <Stack.Screen name="Journal" component={JournalScreen} />
-        <Stack.Screen name="Activity" component={ActivityScreen} />
-        <Stack.Screen name="Article" component={ArticleScreen} />
-        <Stack.Screen name="ArticleDetails" component={ArticleDetails} />
-        <Stack.Screen name="MeditationScreen" component={MeditationScreen} />
-        <Stack.Screen name="SleepStoriesScreen" component={SleepStoriesScreen} />
-        <Stack.Screen name="CreativeExpressionScreen" component={CreativeExpressionScreen} />
-        <Stack.Screen name="CreativeExpressionScreenCanvas" component={CreativeExpressionScreenCanvas} />
-        <Stack.Screen name="BreathingScreen" component={BreathingScreen} />
-        </Stack.Navigator>
-        </NavigationContainer>
+        <MoodProvider> 
+            <NavigationContainer>
+                <Stack.Navigator screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="Splash" component={SplashScreen} />
+                <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Chat" component={ChatScreen} />
+                <Stack.Screen name="Journal" component={JournalScreen} />
+                <Stack.Screen name="Activity" component={ActivityScreen} />
+                <Stack.Screen name="Article" component={ArticleScreen} />
+                <Stack.Screen name="ArticleDetails" component={ArticleDetails} />
+                <Stack.Screen name="MeditationScreen" component={MeditationScreen} />
+                <Stack.Screen name="SleepStoriesScreen" component={SleepStoriesScreen} />
+                <Stack.Screen name="CreativeExpressionScreen" component={CreativeExpressionScreen} />
+                <Stack.Screen name="CreativeExpressionScreenCanvas" component={CreativeExpressionScreenCanvas} />
+                <Stack.Screen name="BreathingScreen" component={BreathingScreen} />
+            </Stack.Navigator>
+            </NavigationContainer>
+        </MoodProvider>
     );
 }
 
