@@ -42,7 +42,7 @@ const addNewArticle = async () => {
 };
 
 export default function App() {
-    console.log("Firebase initialized:", app.name);
+    // console.log("Firebase initialized:", app.name);
     const fontsLoaded = useGlobalFonts();
     useEffect(() => {
         // addNewArticle();
