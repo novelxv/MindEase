@@ -54,7 +54,7 @@ const ChatScreen = ({ navigation }) => {
             <Image source={require("../assets/Minnie-Chat.png")} style={styles.catImage} />
           </View>
           <TodayCard
-            onPress={() => navigation.navigate("ChatDetailsScreen", { session: null })} // Pass null for new session
+            onPress={() => navigation.navigate("ChatDetailsScreen", { session: null })}
             variant="green"
             buttonText="Write a new message to Minnie"
             style={styles.todaycard}
