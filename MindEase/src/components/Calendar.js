@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { getMonthlyMoods } from '../services/moodService';
 
 const Calendar = ({ todayMood }) => {
+    const navigation = useNavigation();
     const currentDate = new Date();
     const currYear = currentDate.getFullYear();
     const currMonth = currentDate.getMonth();
@@ -223,12 +225,17 @@ const Calendar = ({ todayMood }) => {
         );
     };
     
+    const handleViewJournal = () => {
+        const today = new Date().toISOString().split("T")[0];
+        navigation.navigate('JournalDetails', { date: today });
+    };
+    
     return (
         <View style={styles.container}>
         {renderHeader()}
         {renderDays()}
         {renderDates()}
-        <TouchableOpacity style={styles.journalButton}>
+        <TouchableOpacity style={styles.journalButton} onPress={handleViewJournal}>
         <Text style={styles.journalButtonText}>
         View This Day Journal →
         </Text>
