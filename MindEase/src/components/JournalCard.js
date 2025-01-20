@@ -1,16 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useGlobalFonts, globalStyles } from '../styles/global';
 
-const JournalCard = ({ date, preview, emoji }) => {
+const JournalCard = ({ date, preview, emoji, onPress }) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={[globalStyles.subheader, styles.dateContainer]}>
         <Text style={[globalStyles.content, styles.date]}>{date}</Text>
       </View>
       <Text style={[globalStyles.content, styles.preview]}>{preview}</Text>
       <Text style={styles.emoji}>{emoji}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
