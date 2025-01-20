@@ -60,3 +60,68 @@ export const saveJournal = async (date, userInput) => {
     console.error("Error saving journal and related data:", error);
   }
 };
+
+/**
+ * Fetches all journals from the Firestore database.
+ * @returns {Promise<Array>} - An array of journals.
+ * @throws {Error} - If there is an error fetching the journals.
+ */
+export const getAllJournals = async () => {
+  try {
+    const journalsCollection = collection(db, "journals");
+    const journalsSnapshot = await getDocs(journalsCollection);
+    const journalsList = journalsSnapshot.docs.map(doc => doc.data());
+    console.log("Fetched all journals successfully!");
+    return journalsList;
+  } catch (error) {
+    console.error("Error fetching journals:", error);
+    throw error;
+  }
+};
+
+/**
+ * Fetches a journal by date from the Firestore database.
+ * @param {string} date - The date in YYYY-MM-DD format.
+ * @returns {Promise<Object>} - The journal data.
+ * @throws {Error} - If there is an error fetching the journal.
+ */
+export const getJournalByDate = async (date) => {
+  try {
+    const journalQuery = query(collection(db, "journals"), where("date", "==", date));
+    const journalSnapshot = await getDocs(journalQuery);
+    if (journalSnapshot.empty) {
+      throw new Error("Journal not found!");
+    }
+    const journalData = journalSnapshot.docs[0].data();
+    console.log("Fetched journal by date successfully!");
+    return journalData;
+  } catch (error) {
+    console.error("Error fetching journal by date:", error);
+    throw error;
+  }
+};
+
+/**
+ * Fetches journals by month from the Firestore database.
+ * @param {string} month - The month in YYYY-MM format.
+ * @returns {Promise<Array>} - An array of journals for the specified month.
+ * @throws {Error} - If there is an error fetching the journals.
+ */
+export const getJournalsByMonth = async (month) => {
+  try {
+    const startDate = `${month}-01`;
+    const endDate = `${month}-31`;
+    const journalQuery = query(
+      collection(db, "journals"),
+      where("date", ">=", startDate),
+      where("date", "<=", endDate)
+    );
+    const journalSnapshot = await getDocs(journalQuery);
+    const journalsList = journalSnapshot.docs.map(doc => doc.data());
+    console.log("Fetched journals by month successfully!");
+    return journalsList;
+  } catch (error) {
+    console.error("Error fetching journals by month:", error);
+    throw error;
+  }
+};
