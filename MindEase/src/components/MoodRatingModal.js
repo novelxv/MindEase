@@ -14,7 +14,7 @@ import GoodAfter from '../assets/moodRating/good-icon-after';
 import GreatBefore from '../assets/moodRating/great-icon-before.svg';
 import GreatAfter from '../assets/moodRating/great-icon-after';
 
-const MoodRatingModal = ({ visible, onClose }) => {
+const MoodRatingModal = ({ visible, onClose, onSelectMood }) => {
   const { setMood } = useMood(); 
   const [selectedMood, setSelectedMood] = useState(null);
 
@@ -38,9 +38,10 @@ const MoodRatingModal = ({ visible, onClose }) => {
       const currentDate = new Date().toISOString().split('T')[0];  
       await saveMood(currentDate, moodLabel);
 
+      onSelectMood(moodLabel); // Update background in real-time
       onClose();
-      }
     }
+  };
 
   return (
     <Modal

@@ -1,4 +1,4 @@
-import React from 'react';  
+import React, { useEffect } from 'react';  
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';  
 import TerribleBefore from '../assets/moodRating/terrible-icon-before.svg';  
 import TerribleAfter from '../assets/moodRating/terrible-icon-after';  
@@ -11,10 +11,20 @@ import GoodAfter from '../assets/moodRating/good-icon-after';
 import GreatBefore from '../assets/moodRating/great-icon-before.svg';  
 import GreatAfter from '../assets/moodRating/great-icon-after';  
 import { useMood } from '../context/MoodContext'; 
-import { saveMood } from '../services/moodService';
+import { getTodayMood, saveMood } from '../services/moodService';
 
 const MoodRatingCard = ({ onMoodUpdate }) => {  
   const { mood, setMood } = useMood(); 
+
+  useEffect(() => {
+    const fetchTodayMood = async () => {
+      const todayMood = await getTodayMood();
+      if (todayMood) {
+        setMood(todayMood.mood);
+      }
+    };
+    fetchTodayMood();
+  }, [setMood]);
 
   const moods = [  
     { label: 'Terrible', before: TerribleBefore, after: TerribleAfter },  
