@@ -1,6 +1,7 @@
 import * as React from "react"
 import Svg, {
   G,
+  Polygon,
   Circle,
   Path,
   Defs,
