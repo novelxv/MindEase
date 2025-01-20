@@ -3,15 +3,15 @@ import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useMood } from '../context/MoodContext';
 import { saveMood } from '../services/moodService';
 
-import TerribleBefore from '../assets/moodRating/terrible-icon-before.svg';
+import TerribleBefore from '../assets/moodRating/terrible-icon-before';
 import TerribleAfter from '../assets/moodRating/terrible-icon-after';
-import BadBefore from '../assets/moodRating/bad-icon-before.svg';
+import BadBefore from '../assets/moodRating/bad-icon-before';
 import BadAfter from '../assets/moodRating/bad-icon-after';
-import OkayBefore from '../assets/moodRating/okay-icon-before.svg';
+import OkayBefore from '../assets/moodRating/okay-icon-before';
 import OkayAfter from '../assets/moodRating/okay-icon-after';
-import GoodBefore from '../assets/moodRating/good-icon-before.svg';
+import GoodBefore from '../assets/moodRating/good-icon-before';
 import GoodAfter from '../assets/moodRating/good-icon-after';
-import GreatBefore from '../assets/moodRating/great-icon-before.svg';
+import GreatBefore from '../assets/moodRating/great-icon-before';
 import GreatAfter from '../assets/moodRating/great-icon-after';
 
 const MoodRatingModal = ({ visible, onClose, onSelectMood }) => {

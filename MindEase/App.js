@@ -7,6 +7,7 @@ import OnboardingScreen from './src/screens/OnboardingScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import ChatScreen from './src/screens/ChatScreen';
 import JournalScreen from './src/screens/JournalScreen';
+import JournalDetails from './src/screens/JournalDetails';
 import ActivityScreen from './src/screens/ActivityScreen';
 import ArticleScreen from './src/screens/ArticleScreen';
 import ArticleDetails from './src/screens/Articles_ArticleDetails';
@@ -66,6 +67,7 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Chat" component={ChatScreen} />
         <Stack.Screen name="Journal" component={JournalScreen} />
+        <Stack.Screen name="JournalDetails" component={JournalDetails} />
         <Stack.Screen name="Activity" component={ActivityScreen} />
         <Stack.Screen name="Article" component={ArticleScreen} />
         <Stack.Screen name="ArticleDetails" component={ArticleDetails} />

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ImageBackground, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ImageBackground } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import FooterNavigation from '../components/Footer';
 import TodayCard from '../components/TodayCard';
 import JournalCard from '../components/JournalCard';
@@ -10,6 +11,7 @@ import { useGlobalFonts, globalStyles } from '../styles/global';
 const maxWidth = 375;
 
 const JournalScreen = () => {
+  const navigation = useNavigation();
   const [filterModalVisible, setFilterModalVisible] = useState(false);
 
   const prevJournals = [
@@ -18,6 +20,11 @@ const JournalScreen = () => {
     { date: '19/12/2024', preview: 'Dear Minnie, Today...' },
     { date: '18/12/2024', preview: 'Dear Minnie, Today...' },
   ];
+
+  const handleWriteJournal = () => {
+    const today = new Date().toLocaleDateString('en-GB'); // Format: DD/MM/YYYY
+    navigation.navigate('JournalDetails', { date: today });
+  };
 
   return (
     <View style={styles.wrapper}>
@@ -30,7 +37,7 @@ const JournalScreen = () => {
           <HeaderWithBackButton title="Journal" />
         <View style={styles.content}>
           
-          <TodayCard onPress={() => console.log('Today button clicked')} variant="orange" buttonText="✎ Write a journal today!"/>
+          <TodayCard onPress={handleWriteJournal} variant="orange" buttonText="✎ Write a journal today!"/>
           
           <View style={styles.prevJournalSection}>
             <View style={styles.prevJournalHeader}>
@@ -52,6 +59,7 @@ const JournalScreen = () => {
                   key={index}
                   date={journal.date}
                   preview={journal.preview}
+                  onPress={() => navigation.navigate('JournalDetails', { date: journal.date })}
                   emoji={"😞"}
                 />
               ))}
