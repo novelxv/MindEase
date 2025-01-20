@@ -13,7 +13,7 @@ const CreativeExpressionScreen = ({ navigation }) => {
   const [paths, setPaths] = useState([])
   const [currentPath, setCurrentPath] = useState(null)
   const [currentTool, setCurrentTool] = useState("pen")
-  const [currentColor, setCurrentColor] = useState("null")
+  const [currentColor, setCurrentColor] = useState("#000000")
   const [currentWidth, setCurrentWidth] = useState(4)
   const [undoStack, setUndoStack] = useState([])
 
@@ -159,4 +159,3 @@ const styles = StyleSheet.create({
 })
 
 export default CreativeExpressionScreen
-

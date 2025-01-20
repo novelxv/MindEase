@@ -1,45 +1,52 @@
-import React, { useEffect, useState } from "react";
-import { ScrollView, View, Text, StyleSheet, ImageBackground, Dimensions, SafeAreaView, ActivityIndicator } from "react-native";
-import { useRoute } from "@react-navigation/native";
-import FooterNavigation from "../components/Footer";
-import HeaderWithBackButton from "../components/HeaderWithBackButton";
-import { useGlobalFonts, globalStyles } from "../styles/global";
-import { LinearGradient } from "expo-linear-gradient";
-import { fetchArticleById } from "../services/articleService";
+import React, { useEffect, useState } from "react"
+import {
+  ScrollView,
+  View,
+  Text,
+  StyleSheet,
+  ImageBackground,
+  Dimensions,
+  SafeAreaView,
+  ActivityIndicator,
+} from "react-native"
+import { useRoute } from "@react-navigation/native"
+import FooterNavigation from "../components/Footer"
+import BackButton from "../components/BackButton"
+import { useGlobalFonts, globalStyles } from "../styles/global"
+import { LinearGradient } from "expo-linear-gradient"
+import { fetchArticleById } from "../services/articleService"
 
-const { height: screenHeight } = Dimensions.get("window");
+const { height: screenHeight } = Dimensions.get("window")
 
 const imageMapping = {
   "../assets/articles/sleep.png": require("../assets/articles/sleep.png"),
   "../assets/articles/anger.png": require("../assets/articles/anger.png"),
   "../assets/articles/journaling.png": require("../assets/articles/journaling.png"),
   "../assets/articles/breathing.png": require("../assets/articles/breathing.png"),
-  // Add more mappings as needed
-};
+}
 
 const ArticleDetails = ({ navigation }) => {
-  const route = useRoute();
-  const articleId = route.params?.id;
-  const [article, setArticle] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const route = useRoute()
+  const articleId = route.params?.id
+  const [article, setArticle] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-  // Fetch article by ID
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const fetchedArticle = await fetchArticleById(articleId);
-        setArticle(fetchedArticle);
+        const fetchedArticle = await fetchArticleById(articleId)
+        setArticle(fetchedArticle)
       } catch (error) {
-        console.error("Error fetching article:", error);
+        console.error("Error fetching article:", error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
     if (articleId) {
-      fetchArticle();
+      fetchArticle()
     }
-  }, [articleId]);
+  }, [articleId])
 
   if (loading) {
     return (
@@ -49,7 +56,7 @@ const ArticleDetails = ({ navigation }) => {
           <Text style={globalStyles.text}>Loading article...</Text>
         </View>
       </SafeAreaView>
-    );
+    )
   }
 
   if (!article) {
@@ -57,18 +64,18 @@ const ArticleDetails = ({ navigation }) => {
       <SafeAreaView style={globalStyles.container}>
         <Text style={globalStyles.text}>Article not found.</Text>
       </SafeAreaView>
-    );
+    )
   }
 
   return (
     <SafeAreaView style={globalStyles.container}>
       <View style={globalStyles.contentWrapper}>
-        <HeaderWithBackButton title={article.title} onBackPress={() => navigation.navigate("Article")} />
+        <BackButton onPress={() => navigation.navigate("Article")} color="#FFF" />
 
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.heroSection}>
             <ImageBackground
-              source={imageMapping[article.imagePath] || require("../assets/articles/breathing.png")} // Use the mapping object
+              source={imageMapping[article.imagePath] || require("../assets/articles/breathing.png")}
               style={styles.heroImage}
               resizeMode="cover"
             >
@@ -79,10 +86,7 @@ const ArticleDetails = ({ navigation }) => {
           </View>
 
           <View style={styles.contentSection}>
-            <LinearGradient
-              colors={["#FDEECF", "#FFF", "#FDEECE"]}
-              style={styles.backgroundGradient}
-            >
+            <LinearGradient colors={["#FDEECF", "#FFF", "#FDEECE"]} style={styles.backgroundGradient}>
               <View style={styles.contentCard}>
                 <Text style={styles.contentText}>{article.content}</Text>
               </View>
@@ -93,8 +97,8 @@ const ArticleDetails = ({ navigation }) => {
         <FooterNavigation />
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   heroSection: {
@@ -159,6 +163,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-});
+})
 
-export default ArticleDetails;
+export default ArticleDetails
+
