@@ -38,7 +38,7 @@ const MoodRatingModal = ({ visible, onClose, onSelectMood }) => {
       const currentDate = new Date().toISOString().split('T')[0];  
       await saveMood(currentDate, moodLabel);
 
-      onSelectMood(moodLabel); // Update background in real-time
+      onSelectMood(moodLabel);
       onClose();
     }
   };

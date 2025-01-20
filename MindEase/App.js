@@ -14,7 +14,6 @@ import ArticleDetails from './src/screens/Articles_ArticleDetails';
 import MeditationScreen from './src/screens/activity/MeditationScreen';
 import SleepStoriesScreen from './src/screens/activity/SleepStoriesScreen';
 import CreativeExpressionScreen from './src/screens/activity/CreativeExpressionScreen';
-import CreativeExpressionScreenCanvas from './src/screens/activity/CreativeExpressionScreenCanvas';
 import BreathingScreen from './src/screens/activity/BreathingScreen';
 import ChatDetailsScreen from './src/screens/Chat_ChatDetailsScreen'
 
@@ -43,7 +42,7 @@ const addNewArticle = async () => {
 };
 
 export default function App() {
-    console.log("Firebase initialized:", app.name);
+    // console.log("Firebase initialized:", app.name);
     const fontsLoaded = useGlobalFonts();
     useEffect(() => {
         // addNewArticle();
@@ -74,7 +73,6 @@ export default function App() {
         <Stack.Screen name="MeditationScreen" component={MeditationScreen} />
         <Stack.Screen name="SleepStoriesScreen" component={SleepStoriesScreen} />
         <Stack.Screen name="CreativeExpressionScreen" component={CreativeExpressionScreen} />
-        <Stack.Screen name="CreativeExpressionScreenCanvas" component={CreativeExpressionScreenCanvas} />
         <Stack.Screen name="BreathingScreen" component={BreathingScreen} />
         <Stack.Screen name="ChatDetailsScreen" component={ChatDetailsScreen} />
         </Stack.Navigator>
