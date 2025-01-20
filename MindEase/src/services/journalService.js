@@ -48,7 +48,7 @@ export const saveJournal = async (date, userInput) => {
     console.log("New activity recommendation added successfully!");
 
     // 4. Generate motivational banner (always add new)
-    const bannerPrompt = `Based on this journal: "${userInput}", generate a motivational or uplifting quote in 1 sentence. Example: "You are strong and capable of overcoming any challenge". Please don't answer other than the quote.`;
+    const bannerPrompt = `Based on this journal: "${userInput}", generate a motivational or uplifting quote in 1 sentence. Please don't answer other than the quote.`;
     const bannerResponse = await fetchCreativeResponse(bannerPrompt);
 
     await addDoc(collection(db, "banners"), {

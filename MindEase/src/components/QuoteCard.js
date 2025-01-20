@@ -10,17 +10,23 @@ const defaultQuotes = [
 ];
 
 const QuoteCard = () => {
-  const [quotes, setQuotes] = useState(defaultQuotes);
+  const [quotes, setQuotes] = useState([]);
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
 
   useEffect(() => {
     const fetchBanners = async () => {
       try {
         const banners = await getAllBanners();
-        const bannerMessages = banners.map(banner => banner.message);
-        setQuotes(prevQuotes => [...prevQuotes, ...bannerMessages]);
+        const bannerMessages = banners.map((banner) => banner.message);
+
+        const combinedQuotes = Array.from(
+          new Set([...defaultQuotes, ...bannerMessages])
+        );
+
+        setQuotes(combinedQuotes);
       } catch (error) {
         console.error("Error fetching banners:", error);
+        setQuotes(defaultQuotes); // if error, use default quotes only
       }
     };
 
@@ -28,16 +34,22 @@ const QuoteCard = () => {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
-    }, 4000); // Change every 5 seconds
+    if (quotes.length > 0) {
+      const interval = setInterval(() => {
+        setCurrentQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
+      }, 4000); // Change quote every 4 seconds
 
-    return () => clearInterval(interval); // Cleanup interval on unmount
+      return () => clearInterval(interval); // Cleanup interval on unmount
+    }
   }, [quotes]);
 
   return (
     <View style={styles.card}>
-      <Text style={styles.quote}>{quotes[currentQuoteIndex]}</Text>
+      {quotes.length > 0 ? (
+        <Text style={styles.quote}>{quotes[currentQuoteIndex]}</Text>
+      ) : (
+        <Text style={styles.quote}>Loading quotes...</Text>
+      )}
     </View>
   );
 };

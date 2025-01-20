@@ -1,21 +1,43 @@
 // JournalDetails.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Image, Dimensions, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Feather';
 import HeaderWithBackButton from '../components/HeaderWithBackButton';
 import { useGlobalFonts, globalStyles } from '../styles/global';
+import { getJournalByDate, saveJournal } from '../services/journalService';
 
 const { width, height } = Dimensions.get('window');
 
 const JournalDetails = ({ route }) => {
   const navigation = useNavigation();
-  const { date } = route.params;
+  const { date } = route.params; // Get the date from route params
   const [journalText, setJournalText] = useState('');
   const [showFeedback, setShowFeedback] = useState(false);
-  
-  const handleSave = () => {
-    setShowFeedback(true);
+  const [feedbackMessage, setFeedbackMessage] = useState('');
+
+  useEffect(() => {
+    const fetchJournal = async () => {
+      try {
+        const journal = await getJournalByDate(date);
+        setJournalText(journal.userInput);
+        setFeedbackMessage(journal.minnieResponse);
+      } catch (error) {
+        console.error("Error fetching journal:", error);
+      }
+    };
+
+    fetchJournal();
+  }, [date]);
+
+  const handleSave = async () => {
+    try {
+      await saveJournal(date, journalText);
+      const journal = await getJournalByDate(date); // Fetch the updated journal to get the feedback message
+      setFeedbackMessage(journal.minnieResponse);
+      setShowFeedback(true);
+    } catch (error) {
+      console.error("Error saving journal:", error);
+    }
   };
 
   const handleBackPress = () => {
@@ -29,61 +51,60 @@ const JournalDetails = ({ route }) => {
         style={globalStyles.backgroundimage}
         resizeMode="cover"
       >
-      <View style={styles.content}>
-        <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
-          <HeaderWithBackButton 
-            title={`Journal ${date}`} 
-            onBackPress={handleBackPress} 
-            isWhite={false}
-          />
-          <View style={styles.journalContainer}>
-            <Text style={styles.dearMinnie}>Dear Minnie,</Text>
-            <View style={styles.lineContainer}>
-              {[...Array(10)].map((_, index) => (
-                <View key={index} style={styles.line} />
-              ))}
-              <TextInput
-                style={styles.journalInput}
-                multiline
-                value={journalText}
-                onChangeText={setJournalText}
-                placeholder=""
-                textAlignVertical="top"
-              />
-
-            </View>
-          </View>
-
-          {showFeedback && (
-            <View style={styles.feedbackContainer}>
-              <Text style={styles.thankYouText}>Thank you for sharing{'\n'}your day with Minnie!</Text>
-              
-              <Image
-                source={{ uri: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-u4jMt4kLWG6pKM15RVzrBNITEGuIM8.png' }}
-                style={styles.catImage}
-              />
-
-              <View style={styles.messageCard}>
-                <Text style={styles.feedbackMessage}>
-                  Oh no, that's a bold move for an orange cat! He must've mistaken your chicken for a five-star meal! Next time, maybe we should guard your lunch like a dragon guarding its treasure. But hey, at least you have a wild story to tell! Let's take a deep breath and let the chicken drama fly away. You've got this, my friend! 🐾✨
-                </Text>
+        <View style={styles.content}>
+          <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+            <HeaderWithBackButton 
+              title={`Journal ${date}`} 
+              onBackPress={handleBackPress} 
+              isWhite={false}
+            />
+            <View style={styles.journalContainer}>
+              <Text style={styles.dearMinnie}>Dear Minnie,</Text>
+              <View style={styles.lineContainer}>
+                {[...Array(10)].map((_, index) => (
+                  <View key={index} style={styles.line} />
+                ))}
+                <TextInput
+                  style={styles.journalInput}
+                  multiline
+                  value={journalText}
+                  onChangeText={setJournalText}
+                  placeholder=""
+                  textAlignVertical="top"
+                />
               </View>
-
-              <TouchableOpacity 
-                style={styles.tellMoreButton} 
-                onPress={() => setShowFeedback(false)}
-              >
-                <Text style={styles.tellMoreText}>I want to tell you more</Text>
-              </TouchableOpacity>
             </View>
-          )}
-        </ScrollView>
-      </View>
-      {!showFeedback && (
-        <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-          <Text style={styles.saveButtonText}>Save</Text>
-        </TouchableOpacity>
-      )}
+
+            {showFeedback && (
+              <View style={styles.feedbackContainer}>
+                <Text style={styles.thankYouText}>Thank you for sharing{'\n'}your day with Minnie!</Text>
+                
+                <Image
+                  source={{ uri: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-u4jMt4kLWG6pKM15RVzrBNITEGuIM8.png' }}
+                  style={styles.catImage}
+                />
+
+                <View style={styles.messageCard}>
+                  <Text style={styles.feedbackMessage}>
+                    {feedbackMessage}
+                  </Text>
+                </View>
+
+                <TouchableOpacity 
+                  style={styles.tellMoreButton} 
+                  onPress={() => setShowFeedback(false)}
+                >
+                  <Text style={styles.tellMoreText}>I want to tell you more</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </ScrollView>
+        </View>
+        {!showFeedback && (
+          <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+            <Text style={styles.saveButtonText}>Save</Text>
+          </TouchableOpacity>
+        )}
       </ImageBackground>
     </SafeAreaView>
   );

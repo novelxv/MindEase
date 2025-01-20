@@ -22,7 +22,7 @@ const JournalScreen = () => {
   ];
 
   const handleWriteJournal = () => {
-    const today = new Date().toLocaleDateString('en-GB'); // Format: DD/MM/YYYY
+    const today = new Date().toISOString().split("T")[0]; // Format: YYYY-MM-DD
     navigation.navigate('JournalDetails', { date: today });
   };
 
