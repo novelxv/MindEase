@@ -29,8 +29,8 @@ const getRelativeTime = (date) => {
   }
 };
 
-const ChatHistory = ({ chats, navigation }) => {
-  if (chats.length === 0) {
+const ChatHistory = ({ chats = [], navigation }) => {
+  if (!chats || chats.length === 0) {
     return (
       <View style={styles.emptyContainer}>
         <Text style={globalStyles.header}>No messages yet</Text>
@@ -41,7 +41,7 @@ const ChatHistory = ({ chats, navigation }) => {
     <View style={styles.container}>
       {chats.map((chat) => {
         const lastBubbleChat =
-          chat.bubbleChats.length > 0
+          chat.bubbleChats && chat.bubbleChats.length > 0
             ? chat.bubbleChats[chat.bubbleChats.length - 1].message
             : "No messages yet";
 
