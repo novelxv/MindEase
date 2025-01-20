@@ -1,55 +1,89 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Dimensions, ImageBackground } from 'react-native';
-import FooterNavigation from '../components/Footer';
-import MoodRatingModal from '../components/MoodRatingModal';
-import MoodRatingCard from '../components/MoodRatingCard';
-import QuoteCard from '../components/QuoteCard';
-import ActivityCard from '../components/ActivityCard';
-import { useGlobalFonts, globalStyles } from '../styles/global';
-import Calendar from '../components/Calendar';
-import { useMood } from '../context/MoodContext';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  ImageBackground,
+} from "react-native";
+import FooterNavigation from "../components/Footer";
+import MoodRatingModal from "../components/MoodRatingModal";
+import MoodRatingCard from "../components/MoodRatingCard";
+import QuoteCard from "../components/QuoteCard";
+import ActivityCard from "../components/ActivityCard";
+import { useGlobalFonts, globalStyles } from "../styles/global";
+import Calendar from "../components/Calendar";
+import { useMood } from "../context/MoodContext";
+import { getTodayMood } from "../services/moodService";
 
 const HomeScreen = () => {
-  const [moodModalVisible, setMoodModalVisible] = useState(false); 
-  const { mood } = useMood();
+  const [moodModalVisible, setMoodModalVisible] = useState(false);
+  const [todayMood, setTodayMood] = useState(null);
+  const [backgroundImage, setBackgroundImage] = useState(
+    require("../assets/watercolor-blue.png") // Default background
+  );
 
+  // Fetch today's mood on component mount
   useEffect(() => {
-    if (mood === null) {
-      setMoodModalVisible(true);
+    const fetchMood = async () => {
+      const moodData = await getTodayMood();
+      if (moodData) {
+        setTodayMood(moodData.mood);
+        updateBackground(moodData.mood); // Update background based on mood
+      } else {
+        setMoodModalVisible(true); // Show modal if no mood data exists for today
+      }
+    };
+
+    fetchMood();
+  }, []);
+
+  // Update background based on mood
+  const updateBackground = (mood) => {
+    if (["Terrible", "Bad", "Okay"].includes(mood)) {
+      setBackgroundImage(require("../assets/watercolor-blue.png"));
+    } else if (["Good", "Great"].includes(mood)) {
+      setBackgroundImage(require("../assets/watercolor-yellow.png"));
     }
-  }, [mood]);
+  };
 
   const handleMoodSelection = (selectedMood) => {
+    setTodayMood(selectedMood);
+    updateBackground(selectedMood);
     setMoodModalVisible(false);
   };
 
-  const otherActivities = [
-    { title: 'Sports', imageUrl: '/placeholder.svg?height=80&width=150' },
-    { title: 'Sports', imageUrl: '/placeholder.svg?height=80&width=150' },
-    { title: 'Sports', imageUrl: '/placeholder.svg?height=80&width=150' },
-    { title: 'Sports', imageUrl: '/placeholder.svg?height=80&width=150' },
-  ];
+  const handleMoodUpdate = (selectedMood) => {
+    updateBackground(selectedMood);
+  };
 
-  console.log(mood);
-  
-  const backgroundColor = mood === 'Good' || mood === 'Great' ? '#A1C3E3' : '#FAD967';
+  const otherActivities = [
+    { title: "Sports", imageUrl: "/placeholder.svg?height=80&width=150" },
+    { title: "Music", imageUrl: "/placeholder.svg?height=80&width=150" },
+    { title: "Reading", imageUrl: "/placeholder.svg?height=80&width=150" },
+    { title: "Cooking", imageUrl: "/placeholder.svg?height=80&width=150" },
+  ];
 
   return (
     <SafeAreaView style={globalStyles.container}>
-      <ImageBackground 
-        source={require('../assets/watercolor-blue.png')} 
+      <ImageBackground
+        source={backgroundImage}
         style={globalStyles.backgroundimage}
         resizeMode="cover"
       >
-      <View style={styles.content}>
-        <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
-          <Text style={styles.greeting}>Morning, Thea!</Text>
-          <MoodRatingCard onMoodSelect={(mood) => console.log('Selected mood:', mood)} />
-          <QuoteCard />
+        <View style={styles.content}>
+          <ScrollView
+            contentContainerStyle={styles.scrollViewContent}
+            showsVerticalScrollIndicator={false}
+          >
+            <Text style={styles.greeting}>Welcome Back!</Text>
+            <MoodRatingCard onMoodUpdate={handleMoodUpdate} />
+            <QuoteCard />
 
-          <Calendar />
+            <Calendar />
 
-          <View style={[styles.section, styles.lastSection]}>
+            <View style={[styles.section, styles.lastSection]}>
               <Text style={styles.sectionTitle}>Recommended Activities</Text>
               <View style={styles.otherActivitiesGrid}>
                 {otherActivities.map((activity, index) => (
@@ -63,17 +97,17 @@ const HomeScreen = () => {
                 ))}
               </View>
             </View>
-        </ScrollView>
-      </View>
-      
-      <MoodRatingModal
-        visible={moodModalVisible}
-        onClose={() => setMoodModalVisible(false)}
-        onSelectMood={handleMoodSelection}
-      />
+          </ScrollView>
+        </View>
 
-    <FooterNavigation />
-    </ImageBackground>
+        <MoodRatingModal
+          visible={moodModalVisible}
+          onClose={() => setMoodModalVisible(false)}
+          onSelectMood={handleMoodSelection}
+        />
+
+        <FooterNavigation />
+      </ImageBackground>
     </SafeAreaView>
   );
 };
@@ -84,8 +118,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
   },
   scrollViewContent: {
     paddingVertical: 20,
@@ -93,31 +127,8 @@ const styles = StyleSheet.create({
   },
   greeting: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-  },
-  calendarCard: {
-    backgroundColor: 'white',
-    borderRadius: 15,
-    padding: 15,
-    marginBottom: 15,
-  },
-  calendarTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 10,
-  },
-  journalButton: {
-    backgroundColor: '#FF9F57',
-    borderRadius: 25,
-    padding: 15,
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  journalButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
   },
   section: {
     marginBottom: 30,
@@ -127,16 +138,16 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 15,
   },
   otherActivitiesGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
   },
   gridItem: {
-    width: '48%',
+    width: "48%",
     marginBottom: 15,
   },
 });

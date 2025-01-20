@@ -1,4 +1,4 @@
-import React, { useState } from 'react';  
+import React from 'react';  
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';  
 import TerribleBefore from '../assets/moodRating/terrible-icon-before.svg';  
 import TerribleAfter from '../assets/moodRating/terrible-icon-after';  
@@ -13,7 +13,7 @@ import GreatAfter from '../assets/moodRating/great-icon-after';
 import { useMood } from '../context/MoodContext'; 
 import { saveMood } from '../services/moodService';
 
-const MoodRatingCard = () => {  
+const MoodRatingCard = ({ onMoodUpdate }) => {  
   const { mood, setMood } = useMood(); 
 
   const moods = [  
@@ -29,8 +29,8 @@ const MoodRatingCard = () => {
     
     const currentDate = new Date().toISOString().split('T')[0];
     await saveMood(currentDate, selectedMood);
+    onMoodUpdate(selectedMood); // Notify HomeScreen of mood change
   };  
-
 
   return (  
     <View style={styles.card}>  
