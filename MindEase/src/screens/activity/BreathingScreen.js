@@ -42,7 +42,10 @@ const BreathingScreen = ({navigation}) => {
     const [showControls, setShowControls] = useState(true);
     const [isVideoReady, setIsVideoReady] = useState(false);
     
-    const handleBackPress = () => {
+    const handleBackPress = async () => {
+        if (video.current) {
+            await video.current.pauseAsync();
+        }
         navigation.navigate('Activity');
     };
 
@@ -101,9 +104,9 @@ const BreathingScreen = ({navigation}) => {
                         <Video
                             ref={video}
                             style={styles.video}
-                            source={require('../../assets/TestVideo.mp4')}
+                            source={require('../../assets/activities/GuidedBreathing.mp4')}
                             useNativeControls={false}
-                            resizeMode="cover"
+                            resizeMode="contain"
                             isLooping
                             onPlaybackStatusUpdate={setStatus}
                             onLoad={() => setIsVideoReady(true)}

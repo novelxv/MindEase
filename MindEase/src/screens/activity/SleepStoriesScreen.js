@@ -12,24 +12,24 @@ import { ChevronLeft, ChevronRight } from 'lucide-react-native';
 const stories = [
   {
     id: 1,
-    title: 'Ethereal Valley',
+    title: 'Ethereal Valley: Rain White Noise',
     description: 'Spend a day in the ethereal valley, where all of your dreams do come true.',
     image: require('../../assets/activities/sleep_stories/Stories1.png'),
-    audio: require('../../assets/activities/sleep_stories/memories.mp3'),
+    audio: require('../../assets/activities/sleep_stories/rain.mp3'),
   },
   {
     id: 2,
-    title: 'Ethereal Valley2',
-    description: 'Spend a day in the ethereal valley, where all of your dreams do come true.',
+    title: 'Grumpy Monkey',
+    description: 'Grumpy Monkey is well, grumpy.  Sometimes we feel this way.',
     image: require('../../assets/activities/sleep_stories/Stories2.png'),
-    audio: require('../../assets/activities/sleep_stories/hey.mp3'),
+    audio: require('../../assets/activities/sleep_stories/monkey.mp3'),
   },
   {
     id: 3,
-    title: 'Ethereal Valley3',
-    description: 'Spend a day in the ethereal valley, where all of your dreams do come true.',
+    title: "The Froggies Don't Wanna Sleep",
+    description: "Have you ever wished you didn't have to sleep?! Well, did you know that frogs feel the same way?!",
     image: require('../../assets/activities/sleep_stories/Stories3.png'),
-    audio: require('../../assets/activities/sleep_stories/ukulele.mp3'),
+    audio: require('../../assets/activities/sleep_stories/frog.mp3'),
   },
 ];
 
@@ -167,7 +167,7 @@ const SleepStoriesScreen = ({navigation}) => {
                 navigation.navigate('Activity');
             }}
           />
-
+          <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
           <View style={styles.mainContainer}>
             <View style={styles.imageSection}>
               <TouchableOpacity
@@ -232,6 +232,7 @@ const SleepStoriesScreen = ({navigation}) => {
                 </View>
             </View>
           </View>
+          </ScrollView>
           <FooterNavigation />
           </LinearGradient>
       </SafeAreaView>
@@ -338,6 +339,9 @@ const styles = StyleSheet.create({
   },
   rightNavButton: {
     right: 10,
+  },
+  scrollContent: {
+    flexGrow: 1,
   },
 });
 
