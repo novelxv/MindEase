@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Modal, View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useMood } from '../context/MoodContext';
 import { saveMood } from '../services/moodService';
 
@@ -67,9 +67,15 @@ const MoodRatingModal = ({ visible, onClose, onSelectMood }) => {
               >
                 <View>
                   {selectedMood === index ? (
-                    <mood.after width={40} height={40} />
+                  <Image
+                  source={require('../assets/moodRating/Minnie-Chat.png')}  // Path ke gambar PNG setelah mood dipilih
+                  style={{ width: 40, height: 40 }}
+                  />
                   ) : (
-                    <mood.before width={40} height={40} />
+                    <Image
+                    source={require('../assets/moodRating/Minnie-Chat.png')}  // Path ke gambar PNG setelah mood dipilih
+                    style={{ width: 40, height: 40 }}
+                    />
                   )}
                 </View>
                 <Text style={styles.moodLabel}>{mood.label}</Text>

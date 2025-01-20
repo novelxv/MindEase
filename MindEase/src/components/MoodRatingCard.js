@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';  
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';  
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';  
 import TerribleBefore from '../assets/moodRating/terrible-icon-before';  
 import TerribleAfter from '../assets/moodRating/terrible-icon-after';  
 import BadBefore from '../assets/moodRating/bad-icon-before';  
@@ -55,9 +55,15 @@ const MoodRatingCard = ({ onMoodUpdate }) => {
           >  
             <View>  
               {mood === moodOption.label ? (  
-                <moodOption.after width={40} height={40} /> 
+                  <Image
+                  source={require('../assets/moodRating/Minnie-Chat.png')}  // Path ke gambar PNG setelah mood dipilih
+                  style={{ width: 40, height: 40 }}
+                  />
               ) : (  
-                <moodOption.before width={40} height={40} /> 
+                  <Image
+                  source={require('../assets/moodRating/Minnie-Chat.png')}  // Path ke gambar PNG setelah mood dipilih
+                  style={{ width: 40, height: 40 }}
+                  /> 
               )}  
             </View>  
             <Text style={styles.moodLabel}>{moodOption.label}</Text>  
