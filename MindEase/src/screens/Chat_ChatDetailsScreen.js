@@ -75,6 +75,7 @@ const ChatDetailsScreen = ({ route, navigation }) => {
         ref={scrollViewRef}
         onScroll={handleScroll}
         scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false} // Hide vertical scrollbar
         >
         {messages.map((message, index) => (
             <View key={index} style={message.sender === "minnie" ? styles.minnieMessageContainer : null}>

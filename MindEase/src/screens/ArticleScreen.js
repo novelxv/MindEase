@@ -46,7 +46,7 @@ const ArticleScreen = ({ navigation }) => {
     return (
       <SafeAreaView style={globalStyles.container}>
         <ImageBackground 
-          source={require("../assets/watercolor-blue.png")} 
+          source={require("../assets/watercolor-yellow.png")} 
           style={globalStyles.backgroundimage}
           resizeMode="cover"
         >
@@ -63,7 +63,7 @@ const ArticleScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={globalStyles.container}>
       <ImageBackground 
-        source={require("../assets/watercolor-blue.png")} 
+        source={require("../assets/watercolor-yellow.png")} 
         style={globalStyles.backgroundimage}
         resizeMode="cover"
       >
