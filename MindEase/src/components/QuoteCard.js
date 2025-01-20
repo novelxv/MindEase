@@ -30,7 +30,7 @@ const QuoteCard = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
-    }, 5000); // Change every 5 seconds
+    }, 4000); // Change every 5 seconds
 
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, [quotes]);

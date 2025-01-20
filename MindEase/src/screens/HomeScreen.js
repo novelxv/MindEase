@@ -11,11 +11,11 @@ import FooterNavigation from "../components/Footer";
 import MoodRatingModal from "../components/MoodRatingModal";
 import MoodRatingCard from "../components/MoodRatingCard";
 import QuoteCard from "../components/QuoteCard";
-import ActivityCard from "../components/ActivityCard";
 import { useGlobalFonts, globalStyles } from "../styles/global";
 import Calendar from "../components/Calendar";
 import { useMood } from "../context/MoodContext";
-import { getTodayMood, getMonthlyMoods } from "../services/moodService";
+import { getTodayMood } from "../services/moodService";
+import { getAllActivityRecommendations } from "../services/homeService";
 
 const HomeScreen = () => {
   const [moodModalVisible, setMoodModalVisible] = useState(false);
@@ -23,6 +23,12 @@ const HomeScreen = () => {
   const [backgroundImage, setBackgroundImage] = useState(
     require("../assets/watercolor-blue.png") // Default background
   );
+  const [otherActivities, setOtherActivities] = useState([
+    "Read 10 pages of a self-help or motivational book",
+    "Go for a 1-mile morning run",
+    "Write down 3 things you're grateful for",
+    "Listen to your favorite upbeat music playlist",
+  ]);
 
   // Fetch today's mood on component mount
   useEffect(() => {
@@ -37,6 +43,21 @@ const HomeScreen = () => {
     };
 
     fetchMood();
+  }, []);
+
+  // Fetch activity recommendations on component mount
+  useEffect(() => {
+    const fetchRecommendations = async () => {
+      try {
+        const recommendations = await getAllActivityRecommendations();
+        const recommendationTexts = recommendations.map(rec => rec.recommendation);
+        setOtherActivities(prevActivities => [...prevActivities, ...recommendationTexts]);
+      } catch (error) {
+        console.error("Error fetching activity recommendations:", error);
+      }
+    };
+
+    fetchRecommendations();
   }, []);
 
   // Update background based on mood
@@ -59,13 +80,6 @@ const HomeScreen = () => {
     updateBackground(selectedMood);
   };
 
-  const otherActivities = [
-    { title: "Sports", imageUrl: "/placeholder.svg?height=80&width=150" },
-    { title: "Music", imageUrl: "/placeholder.svg?height=80&width=150" },
-    { title: "Reading", imageUrl: "/placeholder.svg?height=80&width=150" },
-    { title: "Cooking", imageUrl: "/placeholder.svg?height=80&width=150" },
-  ];
-
   return (
     <SafeAreaView style={globalStyles.container}>
       <ImageBackground
@@ -86,14 +100,10 @@ const HomeScreen = () => {
 
             <View style={[styles.section, styles.lastSection]}>
               <Text style={styles.sectionTitle}>Recommended Activities</Text>
-              <View style={styles.otherActivitiesGrid}>
+              <View style={styles.otherActivitiesList}>
                 {otherActivities.map((activity, index) => (
-                  <View key={index} style={styles.gridItem}>
-                    <ActivityCard
-                      title={activity.title}
-                      imageUrl={activity.imageUrl}
-                      height={80}
-                    />
+                  <View key={index} style={styles.activityItem}>
+                    <Text style={styles.activityText}>{activity}</Text>
                   </View>
                 ))}
               </View>
@@ -142,14 +152,18 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 15,
   },
-  otherActivitiesGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
+  otherActivitiesList: {
+    flexDirection: "column",
   },
-  gridItem: {
-    width: "48%",
-    marginBottom: 15,
+  activityItem: {
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 10,
+  },
+  activityText: {
+    fontSize: 16,
+    color: "#333",
   },
 });
 
