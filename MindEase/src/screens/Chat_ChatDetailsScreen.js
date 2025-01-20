@@ -4,7 +4,7 @@ import FooterNavigation from "../components/Footer";
 import HeaderWithBackButton from "../components/HeaderWithBackButton";
 import { globalStyles } from "../styles/global";
 import { ArrowDownToDot, ArrowUp } from "lucide-react-native";
-import { createChatSession, sendMessage, fetchChatMessages } from "../services/chatService"; // Import chat services
+import { createChatSession, sendMessage, fetchChatMessages } from "../services/chatService"; 
 
 const ChatDetailsScreen = ({ route, navigation }) => {
     const { session } = route.params || { session: null };
@@ -38,8 +38,8 @@ const ChatDetailsScreen = ({ route, navigation }) => {
         
         setLoading(true);
         try {
-            await sendMessage(currentSession.id, newMessage); // Send message via service
-            const updatedMessages = await fetchChatMessages(currentSession.id); // Fetch updated messages
+            await sendMessage(currentSession.id, newMessage);
+            const updatedMessages = await fetchChatMessages(currentSession.id);
             setMessages(updatedMessages);
             setNewMessage("");
         } catch (error) {
@@ -75,7 +75,7 @@ const ChatDetailsScreen = ({ route, navigation }) => {
         ref={scrollViewRef}
         onScroll={handleScroll}
         scrollEventThrottle={16}
-        showsVerticalScrollIndicator={false} // Hide vertical scrollbar
+        showsVerticalScrollIndicator={false}
         >
         {messages.map((message, index) => (
             <View key={index} style={message.sender === "minnie" ? styles.minnieMessageContainer : null}>

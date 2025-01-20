@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   preview: {
     flex: 1,
-    fontSize: 14,
+    fontSize: 12,
     color: '#666',
   },
   emoji: {

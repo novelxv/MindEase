@@ -3,13 +3,11 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { MessageCircleHeart } from "lucide-react-native";
 import { globalStyles } from "../styles/global";
 
-// Helper function to format the date
 const formatDateTime = (isoDateTime) => {
   const date = new Date(isoDateTime);
   return date.toLocaleString();
 };
 
-// Helper function to get relative time
 const getRelativeTime = (date) => {
   const currentDate = new Date();
   const updatedDate = new Date(date);
@@ -31,9 +29,7 @@ const getRelativeTime = (date) => {
   }
 };
 
-// Main ChatHistory component
 const ChatHistory = ({ chats = [], navigation }) => {
-  // Handle empty state
   if (!chats || chats.length === 0) {
     return (
       <View style={styles.emptyContainer}>
@@ -45,13 +41,11 @@ const ChatHistory = ({ chats = [], navigation }) => {
   return (
     <View style={styles.container}>
       {chats.map((chat) => {
-        // Extract the last message
         const lastMessage =
           chat.messages && chat.messages.length > 0
             ? chat.messages[chat.messages.length - 1].message
             : "No messages yet";
 
-        // Get the relative time
         const relativeTime = getRelativeTime(chat.date);
 
         return (
@@ -60,7 +54,7 @@ const ChatHistory = ({ chats = [], navigation }) => {
             style={styles.chatItem}
             onPress={() =>
               navigation.navigate("ChatDetailsScreen", {
-                session: chat, // Pass the full chat session
+                session: chat,
               })
             }
           >
@@ -124,7 +118,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   chatText: {
-    fontSize: 14,
+    fontSize: 12,
     color: "#333333",
     marginBottom: 4,
   },

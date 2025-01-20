@@ -14,13 +14,13 @@ const globalStyles = StyleSheet.create({
     fontFamily: 'Lexend-Regular',
     fontWeight: "normal",
     color: "#333",
-    fontSize: 16,
+    fontSize: 12,
   },
   subheader: {
     fontFamily: 'Lexend-Regular',
     fontWeight: "bold",
     color: "#333",
-    fontSize: 18,
+    fontSize: 16,
   },
   backgroundimage: {
     flex: 1,
@@ -37,8 +37,6 @@ const globalStyles = StyleSheet.create({
     height: height,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingLeft: 15,
-    paddingRight: 15,
   },
   contentWrapper: {
     width: '100%',

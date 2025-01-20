@@ -4,13 +4,12 @@ import FooterNavigation from "../components/Footer";
 import Card from "../components/Cards";
 import HeaderWithBackButton from "../components/HeaderWithBackButton";
 import { useGlobalFonts, globalStyles } from "../styles/global";
-import { fetchAllArticles } from "../services/articleService"; // Import article service
+import { fetchAllArticles } from "../services/articleService";
 
 const ArticleScreen = ({ navigation }) => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Function to map image paths to require statements
   const getImageSource = (imagePath) => {
     switch (imagePath) {
       case "../assets/articles/sleep.png":
@@ -22,11 +21,10 @@ const ArticleScreen = ({ navigation }) => {
       case "../assets/articles/breathing.png":
         return require("../assets/articles/breathing.png");
       default:
-        return require("../assets/articles/breathing.png"); // Default image
+        return require("../assets/articles/breathing.png"); 
     }
   };
 
-  // Fetch articles from Firestore
   useEffect(() => {
     const fetchArticles = async () => {
       try {
@@ -73,16 +71,15 @@ const ArticleScreen = ({ navigation }) => {
           {articles.map((article) => (
             <View key={article.id} style={styles.cardWrapper}>
               <Card
-                imageSource={getImageSource(article.imagePath)} // Use the mapping function
+                imageSource={getImageSource(article.imagePath)} 
                 text={article.title}
                 navigation={navigation}
-                targetScreen="ArticleDetails" // Default target screen
+                targetScreen="ArticleDetails" 
                 id={article.id}
               />
             </View>
           ))}
         </ScrollView>
-
         <FooterNavigation />
       </ImageBackground>
     </SafeAreaView>
