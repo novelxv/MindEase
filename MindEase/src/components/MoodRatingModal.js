@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Modal, View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useMood } from '../context/MoodContext';
 import { saveMood } from '../services/moodService';
 
-import TerribleBefore from '../assets/moodRating/terrible-icon-before';
-import TerribleAfter from '../assets/moodRating/terrible-icon-after';
-import BadBefore from '../assets/moodRating/bad-icon-before';
-import BadAfter from '../assets/moodRating/bad-icon-after';
-import OkayBefore from '../assets/moodRating/okay-icon-before';
-import OkayAfter from '../assets/moodRating/okay-icon-after';
-import GoodBefore from '../assets/moodRating/good-icon-before';
-import GoodAfter from '../assets/moodRating/good-icon-after';
-import GreatBefore from '../assets/moodRating/great-icon-before';
-import GreatAfter from '../assets/moodRating/great-icon-after';
+import TerribleBefore from '../assets/moodRating/terrible-icon-before.png';  
+import TerribleAfter from '../assets/moodRating/terrible-icon-after.png';  
+import BadBefore from '../assets/moodRating/bad-icon-before.png';  
+import BadAfter from '../assets/moodRating/bad-icon-after.png';  
+import OkayBefore from '../assets/moodRating/okay-icon-before.png';  
+import OkayAfter from '../assets/moodRating/okay-icon-after.png';  
+import GoodBefore from '../assets/moodRating/good-icon-before.png';  
+import GoodAfter from '../assets/moodRating/good-icon-after.png';  
+import GreatBefore from '../assets/moodRating/great-icon-before.png';  
+import GreatAfter from '../assets/moodRating/great-icon-after.png';  
 
 const MoodRatingModal = ({ visible, onClose, onSelectMood }) => {
   const { setMood } = useMood(); 
@@ -67,9 +67,9 @@ const MoodRatingModal = ({ visible, onClose, onSelectMood }) => {
               >
                 <View>
                   {selectedMood === index ? (
-                    <mood.after width={40} height={40} />
+                    <Image source={mood.after} style={styles.moodImage} /> 
                   ) : (
-                    <mood.before width={40} height={40} />
+                    <Image source={mood.after} style={styles.moodImage} /> 
                   )}
                 </View>
                 <Text style={styles.moodLabel}>{mood.label}</Text>
@@ -169,6 +169,10 @@ const styles = StyleSheet.create({
     color: '#999',
     textAlign: 'center',
   },
+  moodImage: {  
+    width: 40,  
+    height: 40,  
+  }, 
 });
 
 export default MoodRatingModal;

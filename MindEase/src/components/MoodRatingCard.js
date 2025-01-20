@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';  
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';  
-import TerribleBefore from '../assets/moodRating/terrible-icon-before';  
-import TerribleAfter from '../assets/moodRating/terrible-icon-after';  
-import BadBefore from '../assets/moodRating/bad-icon-before';  
-import BadAfter from '../assets/moodRating/bad-icon-after';  
-import OkayBefore from '../assets/moodRating/okay-icon-before';  
-import OkayAfter from '../assets/moodRating/okay-icon-after';  
-import GoodBefore from '../assets/moodRating/good-icon-before';  
-import GoodAfter from '../assets/moodRating/good-icon-after';  
-import GreatBefore from '../assets/moodRating/great-icon-before';  
-import GreatAfter from '../assets/moodRating/great-icon-after';  
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';  
+import TerribleBefore from '../assets/moodRating/terrible-icon-before.png';  
+import TerribleAfter from '../assets/moodRating/terrible-icon-after.png';  
+import BadBefore from '../assets/moodRating/bad-icon-before.png';  
+import BadAfter from '../assets/moodRating/bad-icon-after.png';  
+import OkayBefore from '../assets/moodRating/okay-icon-before.png';  
+import OkayAfter from '../assets/moodRating/okay-icon-after.png';  
+import GoodBefore from '../assets/moodRating/good-icon-before.png';  
+import GoodAfter from '../assets/moodRating/good-icon-after.png';  
+import GreatBefore from '../assets/moodRating/great-icon-before.png';  
+import GreatAfter from '../assets/moodRating/great-icon-after.png';  
 import { useMood } from '../context/MoodContext'; 
 import { getTodayMood, saveMood } from '../services/moodService';
 
@@ -55,11 +55,11 @@ const MoodRatingCard = ({ onMoodUpdate }) => {
           >  
             <View>  
               {mood === moodOption.label ? (  
-                <moodOption.after width={40} height={40} /> 
+                <Image source={moodOption.after} style={styles.moodImage} /> 
               ) : (  
-                <moodOption.before width={40} height={40} /> 
+                <Image source={moodOption.before} style={styles.moodImage} /> 
               )}  
-            </View>  
+            </View> 
             <Text style={styles.moodLabel}>{moodOption.label}</Text>  
           </TouchableOpacity>  
         ))}  
@@ -103,7 +103,11 @@ const styles = StyleSheet.create({
   moodLabel: {  
     fontSize: 12,  
     color: '#666',  
-  },  
+  }, 
+  moodImage: {  
+    width: 40,  
+    height: 40,  
+  },   
 });  
 
 export default MoodRatingCard;
