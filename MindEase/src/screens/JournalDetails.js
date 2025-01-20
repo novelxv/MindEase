@@ -11,6 +11,7 @@ const { width, height } = Dimensions.get('window');
 const JournalDetails = ({ route }) => {
   const navigation = useNavigation();
   const { date } = route.params; // Get the date from route params
+  const today = new Date().toISOString().split("T")[0]; // Format YYYY-MM-DD
   const [journalText, setJournalText] = useState('');
   const [showFeedback, setShowFeedback] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState('');
@@ -47,7 +48,7 @@ const JournalDetails = ({ route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground 
-        source={require('../assets/watercolor-blue.png')} 
+        source={require('../assets/watercolor-orange.png')} 
         style={globalStyles.backgroundimage}
         resizeMode="cover"
       >
@@ -71,9 +72,21 @@ const JournalDetails = ({ route }) => {
                   onChangeText={setJournalText}
                   placeholder=""
                   textAlignVertical="top"
+                  editable={date === today} // Make input editable only if the date is today
                 />
               </View>
             </View>
+
+            {date !== today && (
+              <View>
+                <Text style={[styles.headerTitle, { color: 'black' }]}>Minnie's Response</Text>
+                <View style={styles.messageCard}>
+                  <Text style={styles.feedbackMessage}>
+                    {feedbackMessage}
+                  </Text>
+                </View>
+              </View>
+            )}
 
             {showFeedback && (
               <View style={styles.feedbackContainer}>
@@ -100,7 +113,7 @@ const JournalDetails = ({ route }) => {
             )}
           </ScrollView>
         </View>
-        {!showFeedback && (
+        {date === today && !showFeedback && (
           <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
             <Text style={styles.saveButtonText}>Save</Text>
           </TouchableOpacity>
