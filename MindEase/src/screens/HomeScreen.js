@@ -15,7 +15,7 @@ import ActivityCard from "../components/ActivityCard";
 import { useGlobalFonts, globalStyles } from "../styles/global";
 import Calendar from "../components/Calendar";
 import { useMood } from "../context/MoodContext";
-import { getTodayMood } from "../services/moodService";
+import { getTodayMood, getMonthlyMoods } from "../services/moodService";
 
 const HomeScreen = () => {
   const [moodModalVisible, setMoodModalVisible] = useState(false);
@@ -55,6 +55,7 @@ const HomeScreen = () => {
   };
 
   const handleMoodUpdate = (selectedMood) => {
+    setTodayMood(selectedMood);
     updateBackground(selectedMood);
   };
 
@@ -81,7 +82,7 @@ const HomeScreen = () => {
             <MoodRatingCard onMoodUpdate={handleMoodUpdate} />
             <QuoteCard />
 
-            <Calendar />
+            <Calendar todayMood={todayMood} />
 
             <View style={[styles.section, styles.lastSection]}>
               <Text style={styles.sectionTitle}>Recommended Activities</Text>
