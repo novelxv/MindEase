@@ -22,8 +22,9 @@ const QuoteCard = () => {
         const combinedQuotes = Array.from(
           new Set([...defaultQuotes, ...bannerMessages])
         );
+        const filteredQutoes = combinedQuotes.filter((quote) => quote !== "Sorry, I couldn't process your request. Please try again later.");
 
-        setQuotes(combinedQuotes);
+        setQuotes(filteredQutoes);
       } catch (error) {
         console.error("Error fetching banners:", error);
         setQuotes(defaultQuotes); // if error, use default quotes only

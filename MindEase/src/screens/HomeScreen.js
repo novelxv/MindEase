@@ -55,7 +55,11 @@ const HomeScreen = () => {
                 setOtherActivities((prevActivities) => {
                     const combinedActivities = [...prevActivities, ...recommendationTexts];
                     const uniqueActivities = Array.from(new Set(combinedActivities));
-                    return uniqueActivities;
+                    const filteredActivities = uniqueActivities.filter(
+                        (activity) => activity !== "Sorry, I couldn't process your request. Please try again later."
+                    );
+                    console.log("Unique activities:", filteredActivities);
+                    return filteredActivities;
                 });
             } catch (error) {
                 console.error("Error fetching activity recommendations:", error);

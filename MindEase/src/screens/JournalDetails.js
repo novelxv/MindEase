@@ -93,7 +93,7 @@ const JournalDetails = ({ route }) => {
                 <Text style={styles.thankYouText}>Thank you for sharing{'\n'}your day with Minnie!</Text>
                 
                 <Image
-                  source={{ uri: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-u4jMt4kLWG6pKM15RVzrBNITEGuIM8.png' }}
+                  source={require('../assets/Minnie-Chat.png')} 
                   style={styles.catImage}
                 />
 
